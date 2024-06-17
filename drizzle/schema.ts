@@ -1,13 +1,12 @@
 import {
+  integer,
+  pgTable,
   serial,
   text,
-  pgTable,
-  uniqueIndex,
-  integer,
   timestamp,
-  time,
+  uniqueIndex,
 } from 'drizzle-orm/pg-core';
-import { InferInsertModel } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
 export const users = pgTable(
   'users',
@@ -32,5 +31,7 @@ export const sessions = pgTable('sessions', {
   expiresAt: timestamp('expires_at').notNull(),
 });
 
+export type User = InferSelectModel<typeof users>;
 export type NewUser = InferInsertModel<typeof users>;
+export type Session = InferSelectModel<typeof sessions>;
 export type NewSession = InferInsertModel<typeof sessions>;

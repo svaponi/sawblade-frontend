@@ -1,15 +1,13 @@
 'use server';
 
-import { db } from '@/drizzle/db';
-import { users } from '@/drizzle/schema';
 import {
   FormState,
   LoginFormSchema,
   SignupFormSchema,
 } from '@/app/auth/definitions';
-import { createSession, deleteSession } from '@/app/auth/02-stateless-session';
+import { findUserByEmail, insertUser } from '@/drizzle/db';
 import bcrypt from 'bcrypt';
-import { eq } from 'drizzle-orm';
+import { createSession, deleteSession } from '@/app/auth/02-stateless-session';
 
 export async function signup(
   state: FormState,
@@ -33,9 +31,7 @@ export async function signup(
   const { name, email, password } = validatedFields.data;
 
   // 3. Check if the user's email already exists
-  const existingUser = await db.query.users.findFirst({
-    where: eq(users.email, email),
-  });
+  const existingUser = await findUserByEmail(email);
 
   if (existingUser) {
     return {
@@ -47,16 +43,11 @@ export async function signup(
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // 3. Insert the user into the database or call an Auth Provider's API
-  const data = await db
-    .insert(users)
-    .values({
-      name,
-      email,
-      password: hashedPassword,
-    })
-    .returning({ id: users.id });
-
-  const user = data[0];
+  const user = await insertUser({
+    name,
+    email,
+    password: hashedPassword,
+  });
 
   if (!user) {
     return {
@@ -88,12 +79,10 @@ export async function login(
   }
 
   // 2. Query the database for the user with the given email
-  const user = await db.query.users.findFirst({
-    where: eq(users.email, validatedFields.data.email),
-  });
+  const user = await findUserByEmail(validatedFields.data.email);
 
   // If user is not found, return early
-  if (!user) {
+  if (!user || !user.password) {
     return errorMessage;
   }
   // 3. Compare the user's password with the hashed password in the database
