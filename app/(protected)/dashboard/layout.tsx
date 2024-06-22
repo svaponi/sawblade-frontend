@@ -1,11 +1,9 @@
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import LogoutButton from './logout-button';
-import { PackageIcon } from '@/components/ui/icons';
+import { LogOutIcon, PackageIcon } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
-import Image from 'next/image';
 import Link from 'next/link';
-import { getUser } from '@/app/auth/03-dal';
+import { auth } from '@/auth/auth';
+import { UserMenu } from '@/app/components/UserMenu';
 
 const navLinks = [
   { title: 'Home', href: '/dashboard', badge: 0 },
@@ -20,7 +18,8 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getUser();
+  const session = await auth();
+  const user = session?.user;
 
   const activeLink = '/dashboard';
 
@@ -29,7 +28,7 @@ export default async function Layout({
       <div className="hidden w-80 border-r lg:block">
         <div className="flex h-full flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4">
-            <Link className="flex items-center gap-2 font-semibold" href="#">
+            <Link className="flex items-center gap-2 font-semibold" href="/">
               <PackageIcon className="h-6 w-6" />
               <span className="">Acme Inc</span>
             </Link>
@@ -57,7 +56,12 @@ export default async function Layout({
             </nav>
           </div>
           <div className="border-t p-4">
-            <LogoutButton />
+            <Link href={'/'}>
+              <button className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-900">
+                <LogOutIcon className="h-4 w-4" />
+                Exit dashboard
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -81,20 +85,7 @@ export default async function Layout({
                 />
               </div>
             </form>
-            <Button className="rounded-full" size="icon" variant="ghost">
-              <Image
-                alt="Avatar"
-                className="rounded-full"
-                height="32"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: '32/32',
-                  objectFit: 'cover',
-                }}
-                width="32"
-              />
-              <span className="sr-only">View profile</span>
-            </Button>
+            {user && <UserMenu user={user} />}
           </div>
         </header>
         <main className="flex-1 p-4 md:p-6">{children}</main>

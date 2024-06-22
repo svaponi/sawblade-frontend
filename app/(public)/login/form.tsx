@@ -6,12 +6,14 @@ import { Label } from '@/components/ui/label';
 import { login } from '@/app/auth/01-auth';
 import Link from 'next/link';
 import { useFormState, useFormStatus } from 'react-dom';
+import { InputCSRF } from '@/app/components/InputCSRF';
 
 export function LoginForm() {
   const [state, action] = useFormState(login, undefined);
 
   return (
     <form action={action}>
+      <InputCSRF />
       <div className="flex flex-col gap-2">
         <div>
           <Label htmlFor="email">Email</Label>
