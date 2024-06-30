@@ -1,7 +1,7 @@
 import { and, eq } from 'drizzle-orm';
-import { users } from '@/drizzle/schema';
+import { users } from '@/db/drizzle/schema';
 import { User } from 'next-auth';
-import { db } from '@/drizzle/db';
+import { db } from '@/db/drizzle';
 import { toUserRole } from '@/auth/model';
 
 type UserSelect = typeof users.$inferSelect;
@@ -13,19 +13,13 @@ export interface NewUser {
   hashedPassword: string;
 }
 
-export interface AppUser extends User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 export async function insertUser(user: NewUser): Promise<User> {
   const values: UserInsert = { ...user };
   const data = await db.insert(users).values(values).returning();
   return toUser(data[0]);
 }
 
-export async function findUserByEmail(email: string): Promise<AppUser | null> {
+export async function findUserByEmail(email: string): Promise<User | null> {
   const data = await db.select().from(users).where(eq(users.email, email));
   return data.length ? toUser(data[0]) : null;
 }
@@ -33,7 +27,7 @@ export async function findUserByEmail(email: string): Promise<AppUser | null> {
 export async function findUserByCredentials(
   email: string,
   hashedPassword: string,
-): Promise<AppUser | null> {
+): Promise<User | null> {
   const data = await db
     .select()
     .from(users)
@@ -43,7 +37,7 @@ export async function findUserByCredentials(
   return data.length ? toUser(data[0]) : null;
 }
 
-function toUser(dbUser: UserSelect): AppUser {
+function toUser(dbUser: UserSelect): User {
   return {
     id: dbUser.id,
     name: dbUser.name ?? dbUser.email.split('@')[0],

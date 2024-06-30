@@ -1,4 +1,4 @@
-import { getDrizzleDb } from '@/drizzle/pools/vercel';
+import { getDrizzleDb } from '@/db/drizzle/pools/vercel';
 import { Adapter } from 'next-auth/adapters';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import {
@@ -6,7 +6,7 @@ import {
   sessions,
   users,
   verificationTokens,
-} from '@/drizzle/schema';
+} from '@/db/drizzle/schema';
 
 export const db = getDrizzleDb();
 

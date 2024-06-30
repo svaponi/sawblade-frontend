@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
 import authConfig from '@/auth/auth.config';
 import CredentialsProvider from '@/auth/auth.credentials';
-import { findUserByCredentials } from '@/lib/db';
-import { adapter } from '@/drizzle/db';
+import { findUserByCredentials } from '@/db/authcredentials';
+import { adapter } from '@/db/drizzle';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter,

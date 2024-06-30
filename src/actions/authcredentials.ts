@@ -1,6 +1,6 @@
 'use server';
 
-import { findUserByEmail, insertUser } from '@/lib/db';
+import { findUserByEmail, insertUser } from '@/db/authcredentials';
 import bcrypt from 'bcrypt';
 import { signIn } from '@/auth/auth';
 
