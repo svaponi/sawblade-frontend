@@ -2,6 +2,7 @@ import { and, eq } from 'drizzle-orm';
 import { users } from '@/drizzle/schema';
 import { User } from 'next-auth';
 import { db } from '@/drizzle/db';
+import { toUserRole } from '@/auth/model';
 
 type UserSelect = typeof users.$inferSelect;
 type UserInsert = typeof users.$inferInsert;
@@ -48,5 +49,6 @@ function toUser(dbUser: UserSelect): AppUser {
     name: dbUser.name ?? dbUser.email.split('@')[0],
     email: dbUser.email,
     image: dbUser.image,
+    role: toUserRole(dbUser.role),
   };
 }

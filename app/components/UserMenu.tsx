@@ -12,7 +12,7 @@ interface Props {
 export function UserMenu({ user }: Props) {
   return user ? (
     <Button className="rounded-full" size="icon" variant="ghost">
-      <UserMenuDropdown>
+      <UserMenuDropdown user={user}>
         <Image
           alt="Avatar"
           className="rounded-full"
