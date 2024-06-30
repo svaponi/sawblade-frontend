@@ -144,3 +144,18 @@ export function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function SawbladeIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      transform="matrix(0,1,1,0,0,0) rotate(30)"
+    >
+      <path d="M16 1v4.5h-10.5l3 3-7.5 7.5h4.5v10.5l3-3 7.5 7.5v-4.5h10.5l-3-3 7.5-7.5h-4.5v-10.5l-3 3-7.5-7.5zM16 8.5c4.142 0 7.5 3.358 7.5 7.5s-3.358 7.5-7.5 7.5-7.5-3.358-7.5-7.5c0-4.142 3.358-7.5 7.5-7.5zM19 16c0 1.657-1.343 3z"></path>
+    </svg>
+  );
+}

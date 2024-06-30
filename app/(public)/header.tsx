@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { MenuIcon } from '@/components/ui/icons';
+import {MenuIcon, SawbladeIcon} from '@/components/ui/icons';
 import { auth } from '@/auth/auth';
 import { UserMenu } from '@/app/components/UserMenu';
 import LoginButton from '@/app/(public)/login';
@@ -24,6 +24,10 @@ export default async function Header() {
     <div className="border-b border-gray-100">
       <div className="container mx-auto flex max-w-7xl items-center justify-end p-4 md:justify-between md:px-6">
         <nav className="hidden items-center space-x-4 text-sm md:flex">
+          <Link className="flex items-center gap-2 font-semibold" href="/">
+            <SawbladeIcon className="h-6 w-6" />
+            <span className="">Sawblade</span>
+          </Link>
           {links.map((link) => (
             <Link className="text-gray-900" href={link.href} key={link.title}>
               {link.title}

@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { LogOutIcon, PackageIcon } from '@/components/ui/icons';
+import { LogOutIcon, PackageIcon, SawbladeIcon } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { auth } from '@/auth/auth';
@@ -29,8 +29,8 @@ export default async function Layout({
         <div className="flex h-full flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4">
             <Link className="flex items-center gap-2 font-semibold" href="/">
-              <PackageIcon className="h-6 w-6" />
-              <span className="">Acme Inc</span>
+              <SawbladeIcon className="h-6 w-6" />
+              <span className="">Sawblade</span>
             </Link>
           </div>
           <div className="flex-1 overflow-auto py-2">
