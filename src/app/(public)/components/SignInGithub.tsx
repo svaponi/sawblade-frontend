@@ -4,17 +4,22 @@ import { Spinner } from '@/components/ui/spinner';
 import Image from 'next/image';
 import { loginWithGithub } from '@/actions/auth';
 import { useFormState, useFormStatus } from 'react-dom';
+import { PropsWithChildren } from 'react';
 
-export default function SignInGithub() {
+interface Props {
+  text?: string;
+}
+
+export default function SignInGithub({ text }: Props) {
   const [_, action] = useFormState(loginWithGithub, undefined);
   return (
     <form action={action}>
-      <SignInButton />
+      <SignInButton>{text ?? 'Sign-in with Github'}</SignInButton>
     </form>
   );
 }
 
-function SignInButton() {
+function SignInButton({ children }: PropsWithChildren) {
   const { pending } = useFormStatus();
   return (
     <Button aria-disabled={pending} type="submit" className="w-full">
@@ -29,7 +34,7 @@ function SignInButton() {
           style={{ filter: 'invert(1)', marginRight: '0.5rem' }}
         />
       )}
-      Login with Github
+      {children}
     </Button>
   );
 }

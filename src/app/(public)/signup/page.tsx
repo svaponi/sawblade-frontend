@@ -9,9 +9,6 @@ export default function Page() {
     <div className="flex flex-col p-4 lg:w-1/3">
       <div className="text-center">
         <h1 className="text-3xl font-bold">Create an account</h1>
-        {/*<p className="mt-4 text-gray-500">*/}
-        {/*  Enter your information to get started*/}
-        {/*</p>*/}
       </div>
       <div className="mt-6">
         <SignupForm />
@@ -24,10 +21,10 @@ export default function Page() {
       </div>
       <DividerWithText className="mt-4">or</DividerWithText>
       <div className="mt-4">
-        <SignInGoogle />
+        <SignInGoogle text={'Sign up with Google'} />
       </div>
       <div className="mt-4">
-        <SignInGithub />
+        <SignInGithub text={'Sign up with GitHub'} />
       </div>
     </div>
   );
