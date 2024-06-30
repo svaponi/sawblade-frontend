@@ -3,14 +3,16 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { signup } from '@/app/auth/01-auth';
+import { signup } from '@/actions/authcredentials';
 import { useFormState, useFormStatus } from 'react-dom';
+import { InputCSRF } from '@/app/(public)/components/InputCSRF';
 
 export function SignupForm() {
   const [state, action] = useFormState(signup, undefined);
 
   return (
     <form action={action}>
+      <InputCSRF />
       <div className="flex flex-col gap-2">
         <div>
           <Label htmlFor="name">Name</Label>

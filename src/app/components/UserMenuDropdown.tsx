@@ -28,7 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { PropsWithChildren } from 'react';
-import { logout } from '@/app/(public)/login/actions';
+import { logout } from '@/actions/auth';
 import { User as AuthUser } from 'next-auth';
 
 interface Props extends PropsWithChildren {

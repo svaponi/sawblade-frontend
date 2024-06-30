@@ -3,10 +3,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { login } from '@/app/auth/01-auth';
+import { login } from '@/actions/authcredentials';
 import Link from 'next/link';
 import { useFormState, useFormStatus } from 'react-dom';
-import { InputCSRF } from '@/app/components/InputCSRF';
+import { InputCSRF } from '@/app/(public)/components/InputCSRF';
 
 export function LoginForm() {
   const [state, action] = useFormState(login, undefined);
