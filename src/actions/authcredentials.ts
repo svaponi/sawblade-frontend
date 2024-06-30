@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import { signIn } from '@/auth/auth';
 
 import { z } from 'zod';
+import { disableCredentialLogin, disableCredentialSignup } from '@/constants';
 
 const SignupFormSchema = z.object({
   name: z
@@ -47,6 +48,10 @@ export async function signup(
   state: FormState,
   formData: FormData,
 ): Promise<FormState> {
+  if (disableCredentialSignup) {
+    return { message: 'Sign up with credentials is currently disabled' };
+  }
+
   // 1. Validate form fields
   const validatedFields = SignupFormSchema.safeParse({
     name: formData.get('name'),
@@ -91,6 +96,10 @@ export async function login(
   state: FormState,
   formData: FormData,
 ): Promise<FormState> {
+  if (disableCredentialLogin) {
+    return { message: 'Login with credentials is currently disabled' };
+  }
+
   // 1. Validate form fields
   const validatedFields = LoginFormSchema.safeParse({
     email: formData.get('email'),

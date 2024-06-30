@@ -23,7 +23,7 @@ export function SignupForm() {
         )}
         <div>
           <Label htmlFor="email">Email</Label>
-          <Input id="email" name="email" placeholder="john@example.com" />
+          <Input id="email" name="email" placeholder="jdoe@example.com" />
         </div>
         {state?.errors?.email && (
           <p className="text-sm text-red-500">{state.errors.email}</p>
@@ -42,6 +42,9 @@ export function SignupForm() {
             </ul>
           </div>
         )}
+        {state?.message && (
+          <p className="text-sm text-red-500">{state.message}</p>
+        )}
         <SignupButton />
       </div>
     </form>
@@ -52,7 +55,7 @@ export function SignupButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button aria-disabled={pending} type="submit" className="mt-2 w-full">
+    <Button aria-disabled={pending} type="submit" className="mt-4 w-full">
       {pending ? 'Submitting...' : 'Sign up'}
     </Button>
   );

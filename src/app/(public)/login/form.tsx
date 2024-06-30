@@ -17,16 +17,11 @@ export function LoginForm() {
       <div className="flex flex-col gap-2">
         <div>
           <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            name="email"
-            placeholder="m@example.com"
-            type="email"
-          />
-          {state?.errors?.email && (
-            <p className="text-sm text-red-500">{state.errors.email}</p>
-          )}
+          <Input id="email" name="email" placeholder="jdoe@example.com" />
         </div>
+        {state?.errors?.email && (
+          <p className="text-sm text-red-500">{state.errors.email}</p>
+        )}
         <div className="mt-4">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
