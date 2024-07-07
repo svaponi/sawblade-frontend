@@ -13,6 +13,7 @@ const navLinks = [
   { title: 'Users', href: '/dashboard/users' },
   { title: 'Products', href: '/dashboard/products' },
   { title: 'Photos', href: '/dashboard/photos' },
+  { title: 'Invoices', href: '/dashboard/invoices' },
 ];
 
 export default async function Layout({ children }: PropsWithChildren) {
