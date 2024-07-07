@@ -1,7 +1,7 @@
-import { getProducts } from '@/app/(protected)/dashboard/products/actions';
-import ProductList from '@/app/(protected)/dashboard/products/components/ProductList';
+import { getPhotoScroll } from '@/app/(protected)/dashboard/photoscroll/actions';
 import Search from '@/app/(protected)/dashboard/components/Search';
 import React, { Suspense } from 'react';
+import ScrollList from '@/app/(protected)/dashboard/photoscroll/ScrollList';
 
 interface Props {
   searchParams?: {
@@ -16,13 +16,13 @@ export default async function Page(props: Props) {
       <div className="flex items-center justify-between gap-10">
         <div className="">
           <div className="text-2xl font-semibold">
-            <h3>Products</h3>
+            <h3>Photos</h3>
           </div>
           <div className="text-sm text-gray-500">
-            <h3>All products in the system</h3>
+            <h3>All photos in the system</h3>
           </div>
         </div>
-        <Search placeholder="Search products..." />
+        <Search placeholder="Search photos..." />
       </div>
       <div className="flex flex-col gap-4">
         <Suspense fallback={<div>Loading...</div>} key={JSON.stringify(props)}>
@@ -36,6 +36,6 @@ export default async function Page(props: Props) {
 async function SuspendedList({ searchParams }: Props) {
   const query = searchParams?.query;
   const next = searchParams?.next;
-  const result = await getProducts(query, next);
-  return <ProductList result={result} query={query} />;
+  const result = await getPhotoScroll(query, next);
+  return <ScrollList result={result} query={query} />;
 }

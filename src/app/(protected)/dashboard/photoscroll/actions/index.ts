@@ -1,15 +1,15 @@
 'use server';
 import { ScrollResult } from '@/app/components/ScrollableList';
-import { getAllPhotos, Photo } from '@/db/photos';
+import { getAllPhotos, Photo as PhotoAlias } from '@/db/photos';
 
 const PAGE_SIZE = 5;
 
-export type Product = Photo;
+export type Photo = PhotoAlias;
 
-export async function getProducts(
+export async function getPhotoScroll(
   query?: string,
   next?: string,
-): Promise<ScrollResult<Product>> {
+): Promise<ScrollResult<Photo>> {
   let collection = await getAllPhotos();
   if (query) {
     collection = collection.filter(
@@ -20,12 +20,11 @@ export async function getProducts(
   }
   let offset = Number(next ?? 0);
   const data = collection.slice(offset, offset + PAGE_SIZE);
-  const result = { data, next: String(offset + PAGE_SIZE), total: collection.length };
-  console.log('getProducts', query, next, collection.length);
+  const result = {
+    data,
+    next: String(offset + PAGE_SIZE),
+    total: collection.length,
+  };
+  console.log('getPhotoScroll', query, next, collection.length);
   return result;
-}
-
-export async function getProductCount(): Promise<number> {
-  let collection = await getAllPhotos();
-  return collection.length;
 }

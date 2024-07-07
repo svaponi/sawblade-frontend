@@ -11,8 +11,8 @@ import { getPhotoCount } from '@/app/(protected)/dashboard/photos/actions';
 const navLinks = [
   { title: 'Home', href: '/dashboard' },
   { title: 'Users', href: '/dashboard/users' },
-  { title: 'Products', href: '/dashboard/products' },
   { title: 'Photos', href: '/dashboard/photos' },
+  { title: 'PhotoScroll', href: '/dashboard/photoscroll' },
   { title: 'Invoices', href: '/dashboard/invoices' },
 ];
 
