@@ -29,7 +29,7 @@ export default async function Page(props: Props) {
             <h3>Products</h3>
           </div>
           <div className="text-sm text-gray-500">
-            <h3>All products in the system</h3>
+            <h3>All products in the system.</h3>
           </div>
         </div>
         <Search placeholder="Search products..." />

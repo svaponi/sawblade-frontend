@@ -12,6 +12,7 @@ function isUserAuthenticated(auth: any): boolean {
 
 export default auth((req) => {
   try {
+    // FIXME why user role is not available here?
     const isAuth = isUserAuthenticated(req.auth);
     if (isAuth && loginRoutes.includes(req.nextUrl.pathname)) {
       return NextResponse.redirect(new URL('/dashboard', req.nextUrl.origin));
@@ -19,7 +20,9 @@ export default auth((req) => {
     if (!isAuth && protectedRoutes.includes(req.nextUrl.pathname)) {
       return NextResponse.redirect(new URL('/', req.nextUrl.origin));
     }
-    return NextResponse.next();
+    const headers = new Headers(req.headers);
+    headers.set('x-pathname', req.nextUrl.pathname);
+    return NextResponse.next({ request: { headers } });
   } catch (error) {
     console.error(error);
   }

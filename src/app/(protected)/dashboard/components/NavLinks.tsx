@@ -31,21 +31,9 @@ export default function NavLinks({ navLinks }: Props) {
           key={link.title}
         >
           <span>{link.title}</span>
-          <LinkBadge badge={link.badge} />
+          {link.badge ? <Badge className="ml-auto">{link.badge}</Badge> : null}
         </Link>
       ))}
     </nav>
   );
-}
-
-function LinkBadge({ badge }: { badge?: number }) {
-  return !badge ? null : badge > 99 ? (
-      <Badge className="ml-auto flex h-6 w-8 shrink-0 items-center justify-center rounded-full">
-        {badge}
-      </Badge>
-  ) : badge > 0 ? (
-      <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-        {badge}
-      </Badge>
-  ) : null;
 }

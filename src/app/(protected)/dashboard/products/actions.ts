@@ -147,9 +147,14 @@ export async function getProductPage(
   return results;
 }
 
-export async function getProductPageCount(query?: string): Promise<number> {
+export async function getProductCount(query?: string): Promise<number> {
   const result = await products.count({ query });
-  console.log('getProductPageCount', query, result);
+  console.log('getProductCount', query, result);
+  return result;
+}
+
+export async function getProductPageCount(query?: string): Promise<number> {
+  const result = await getProductCount(query);
   return Math.ceil(result / PAGE_SIZE);
 }
 

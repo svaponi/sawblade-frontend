@@ -5,20 +5,36 @@ import { auth } from '@/auth/auth';
 import { UserMenu } from '@/app/components/UserMenu';
 import NavLinks from '@/app/(protected)/dashboard/components/NavLinks';
 import { PropsWithChildren } from 'react';
-import { getUsersCount } from '@/app/(protected)/dashboard/users/actions';
-import { getPhotoCount } from '@/app/(protected)/dashboard/photos/actions';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { redirect } from 'next/navigation';
+import { User } from 'next-auth';
+import { getPathname } from '@/lib/path';
 
 const navLinks = [
   { title: 'Home', href: '/dashboard' },
-  { title: 'Users', href: '/dashboard/users' },
+  { title: 'Users', href: '/dashboard/users', role: 'admin' },
   { title: 'Photos', href: '/dashboard/photos' },
-  { title: 'PhotoScroll', href: '/dashboard/photoscroll' },
-  { title: 'Invoices', href: '/dashboard/invoices' },
+  { title: 'Photos V2', href: '/dashboard/photos-infinite-scroll' },
+  { title: 'Invoices', href: '/dashboard/invoices', role: 'admin' },
   { title: 'Products', href: '/dashboard/products' },
 ];
 
 export default async function Layout({ children }: PropsWithChildren) {
+  const session = await auth();
+  const user = session?.user;
+  if (!user) {
+    return redirect('/noauth');
+  }
+  const isAdmin = user.role === 'admin';
+  if (!isAdmin) {
+    const pathname = getPathname();
+    const adminPaths = navLinks
+      .filter((link) => link.role === 'admin')
+      .map((link) => link.href);
+    if (adminPaths.some((path) => pathname.startsWith(path))) {
+      return redirect('/noauth');
+    }
+  }
   const sidebarWidth = '20rem';
   const headerHeight = '4rem';
   return (
@@ -27,13 +43,13 @@ export default async function Layout({ children }: PropsWithChildren) {
         className={`fixed left-0 top-0 z-10 w-full border-b`}
         style={{ height: headerHeight, backdropFilter: 'blur(16px)' }}
       >
-        <Header />
+        <Header user={user} />
       </header>
       <aside
         className={`fixed left-0 top-0 h-full flex-shrink-0 border-r`}
         style={{ width: sidebarWidth, paddingTop: headerHeight }}
       >
-        <Sidebar />
+        <Sidebar user={user} />
       </aside>
 
       <div className="min-w-0 flex-1">
@@ -48,9 +64,7 @@ export default async function Layout({ children }: PropsWithChildren) {
   );
 }
 
-async function Header() {
-  const session = await auth();
-  const user = session?.user;
+async function Header({ user }: { user: User }) {
   return (
     <header className="flex h-full items-center px-4 md:gap-4">
       <div className="flex h-14 items-center px-4">
@@ -76,20 +90,10 @@ async function Header() {
   );
 }
 
-async function Sidebar() {
-  const [userCount, photoCount] = await Promise.all([
-    getUsersCount(),
-    getPhotoCount(),
-  ]);
-  const links = navLinks.map((link) => {
-    if (link.title === 'Users') {
-      return { ...link, badge: userCount };
-    } else if (link.title === 'Photos') {
-      return { ...link, badge: photoCount };
-    } else {
-      return link;
-    }
-  });
+async function Sidebar({ user }: { user: User }) {
+  const links = navLinks.filter(
+    (link) => link.role === undefined || link.role === user?.role,
+  );
   return (
     <div className="flex h-full flex-col gap-2">
       <div className="flex-1 overflow-auto py-2">

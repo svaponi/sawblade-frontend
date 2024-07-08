@@ -7,7 +7,7 @@ import ScrollableList, { ScrollResult } from '@/app/components/ScrollableList';
 import {
   getPhotoScroll,
   Photo,
-} from '@/app/(protected)/dashboard/photoscroll/actions';
+} from '@/app/(protected)/dashboard/photos-infinite-scroll/actions';
 
 interface ScrollListProps {
   result: ScrollResult<Photo>;

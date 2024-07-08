@@ -1,7 +1,10 @@
 import 'server-only';
 import { headers } from 'next/headers';
 
-export function getPathname() {
-  const referer = headers().get('referer');
-  return new URL(referer ?? '/').pathname;
+export function getPathname(): string {
+  const pathname = headers().get('x-pathname');
+  if (!pathname) {
+    throw new Error('x-pathname header not found, check your middleware.');
+  }
+  return pathname;
 }
