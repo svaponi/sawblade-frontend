@@ -3,29 +3,28 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { Product } from '@/domain/products/model';
-import { products } from '@/db/products';
+import { Product, products } from '@/domain/products';
 
 const FormSchema = z.object({
-  id: z.string({
-    required_error: 'Missing ID',
-  }),
-  createdAt: z.date({
-    required_error: 'Missing createdAt',
-  }),
-  updatedAt: z.date({
-    required_error: 'Missing updatedAt',
-  }),
   title: z.string({
-    invalid_type_error: 'Please provide a title.',
+    invalid_type_error: 'Please provide a name.',
+  }),
+  brand: z.string({
+    invalid_type_error: 'Please provide a brand.',
   }),
   description: z.string({
     invalid_type_error: 'Please provide a description.',
   }),
+  category: z.string({
+    invalid_type_error: 'Please provide a category.',
+  }),
+  price: z.coerce.number({
+    invalid_type_error: 'Please provide a price.',
+  }),
 });
 
-const CreateFormSchema = FormSchema.omit({ id: true, createdAt: true });
-const UpdateFormSchema = FormSchema.omit({ createdAt: true });
+const CreateFormSchema = FormSchema.omit({});
+const UpdateFormSchema = FormSchema.omit({});
 
 type CreateFormSchemaType = z.infer<typeof CreateFormSchema>;
 type UpdateFormSchemaType = z.infer<typeof UpdateFormSchema>;
@@ -44,15 +43,31 @@ export type UpdateFormState = {
   message?: string | null;
 };
 
+function formDataToObject(formData: FormData) {
+  const obj: any = {};
+  formData.forEach((value, key) => {
+    // If the key already exists, convert the value to an array and append the new value
+    if (obj.hasOwnProperty(key)) {
+      if (Array.isArray(obj[key])) {
+        obj[key].push(value);
+      } else {
+        obj[key] = [obj[key], value];
+      }
+    } else {
+      obj[key] = value;
+    }
+  });
+  return obj;
+}
+
 export async function create(
   prevState: CreateFormState,
   formData: FormData,
 ): Promise<CreateFormState> {
   // Validate form fields using Zod
-  const validatedFields = CreateFormSchema.safeParse({
-    title: formData.get('title'),
-    description: formData.get('description'),
-  });
+  const validatedFields = CreateFormSchema.safeParse(
+    formDataToObject(formData),
+  );
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
@@ -63,9 +78,8 @@ export async function create(
   }
 
   // Prepare data for insertion into the database
-  const { title, description } = validatedFields.data;
-  const createdAt = new Date().toISOString().split('T')[0];
-  const data = { title, description, createdAt };
+  const { title, description, category, brand, price } = validatedFields.data;
+  const data = { title, description, category, brand, price };
 
   // Insert data into the database
   try {
@@ -78,7 +92,7 @@ export async function create(
   }
 
   // Revalidate the cache for the invoices page and redirect the user.
-  revalidatePath('/dashboard/products');
+  revalidatePath('/dashboard/index');
   redirect('/dashboard/products');
 }
 
@@ -87,10 +101,9 @@ export async function update(
   prevState: UpdateFormState,
   formData: FormData,
 ): Promise<UpdateFormState> {
-  const validatedFields = UpdateFormSchema.safeParse({
-    title: formData.get('title'),
-    description: formData.get('description'),
-  });
+  const validatedFields = UpdateFormSchema.safeParse(
+    formDataToObject(formData),
+  );
 
   if (!validatedFields.success) {
     return {
@@ -99,9 +112,8 @@ export async function update(
     };
   }
 
-  const { title, description } = validatedFields.data;
-  const updatedAt = new Date().toISOString();
-  const data = { title, description, updatedAt };
+  const { title, description, category, brand, price } = validatedFields.data;
+  const data = { title, description, category, brand, price };
 
   try {
     await products.updateById(id, data);
@@ -113,10 +125,10 @@ export async function update(
   redirect('/dashboard/products');
 }
 
-export async function deleteInvoice(id: string) {
+export async function deleteById(id: string) {
   try {
     await products.deleteById(id);
-    revalidatePath('/dashboard/products');
+    revalidatePath('/dashboard/index');
     return { message: 'Deleted Invoice' };
   } catch (error) {
     return { message: 'Database Error: Failed to Delete Invoice.' };
@@ -129,17 +141,26 @@ export async function getProductPage(
   query?: string,
   page?: number,
 ): Promise<Product[]> {
-  const offset = (page ?? 1) * PAGE_SIZE;
-  const data = await products.search(offset, PAGE_SIZE, { query });
-  const results = data.map((product) => ({
-    id: product._id.toString(),
-    title: product.title.toString(),
-    description: product.description.toString(),
-  }));
-  console.log('getProductPage', query, results);
+  const offset = ((page ?? 1) - 1) * PAGE_SIZE;
+  const results = await products.search(offset, PAGE_SIZE, { query });
+  console.log('getProductPage', query, page, results);
   return results;
 }
 
-export async function getProductCount(query?: string): Promise<number> {
-  return await products.count({ query });
+export async function getProductPageCount(query?: string): Promise<number> {
+  const result = await products.count({ query });
+  console.log('getProductPageCount', query, result);
+  return Math.ceil(result / PAGE_SIZE);
+}
+
+export async function getById(id: string) {
+  return await products.getById(id);
+}
+
+export async function getProductCategories(): Promise<string[]> {
+  return await products.distinctCategories();
+}
+
+export async function getProductBrands(): Promise<string[]> {
+  return await products.distinctBrands();
 }

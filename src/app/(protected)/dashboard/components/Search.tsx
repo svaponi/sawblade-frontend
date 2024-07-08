@@ -14,6 +14,10 @@ export default function Search({ placeholder }: { placeholder: string }) {
 
     const params = new URLSearchParams(searchParams);
 
+    if (params.has('page')) {
+      params.delete('page');
+    }
+
     if (term) {
       params.set('query', term);
     } else {

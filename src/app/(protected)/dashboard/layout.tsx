@@ -14,6 +14,7 @@ const navLinks = [
   { title: 'Photos', href: '/dashboard/photos' },
   { title: 'PhotoScroll', href: '/dashboard/photoscroll' },
   { title: 'Invoices', href: '/dashboard/invoices' },
+  { title: 'Products', href: '/dashboard/products' },
 ];
 
 export default async function Layout({ children }: PropsWithChildren) {
