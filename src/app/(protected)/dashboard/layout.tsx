@@ -7,6 +7,7 @@ import NavLinks from '@/app/(protected)/dashboard/components/NavLinks';
 import { PropsWithChildren } from 'react';
 import { getUsersCount } from '@/app/(protected)/dashboard/users/actions';
 import { getPhotoCount } from '@/app/(protected)/dashboard/photos/actions';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const navLinks = [
   { title: 'Home', href: '/dashboard' },
@@ -30,7 +31,7 @@ export default async function Layout({ children }: PropsWithChildren) {
       </header>
       <aside
         className={`fixed left-0 top-0 h-full flex-shrink-0 border-r`}
-        style={{ width: sidebarWidth, marginTop: headerHeight }}
+        style={{ width: sidebarWidth, paddingTop: headerHeight }}
       >
         <Sidebar />
       </aside>
@@ -68,6 +69,7 @@ async function Header() {
             />
           </div>
         </form>
+        <ThemeToggle />
         {user && <UserMenu user={user} />}
       </div>
     </header>

@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import {MenuIcon, SawbladeIcon} from '@/components/ui/icons';
+import { MenuIcon, SawbladeIcon } from '@/components/ui/icons';
 import { auth } from '@/auth/auth';
 import { UserMenu } from '@/app/components/UserMenu';
 import LoginButton from '@/app/(public)/login';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const publicLinks = [
   { href: '/', title: 'Home' },
@@ -36,6 +37,7 @@ export default async function Header() {
         </nav>
         <div className="hidden items-center space-x-4 md:flex">{comp}</div>
         <div className="flex items-center space-x-4 md:hidden">
+          <ThemeToggle />
           {comp}
           <button className="inline-flex rounded-md md:hidden" type="button">
             <MenuIcon className="h-6 w-6" />
