@@ -24,7 +24,7 @@ export default async function Layout({ children }: PropsWithChildren) {
   return (
     <div className="flex h-screen">
       <header
-        className={`bg-primary fixed left-0 top-0 z-10 w-full border-b`}
+        className={`fixed left-0 top-0 z-10 w-full border-b`}
         style={{ height: headerHeight, backdropFilter: 'blur(16px)' }}
       >
         <Header />
