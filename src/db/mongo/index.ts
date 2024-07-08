@@ -55,6 +55,28 @@ export class MongoDataRepository {
     return await collection.distinct(fieldName);
   }
 
+  async aggregate(
+    collectionName: string,
+    fieldName: string,
+  ): Promise<MongoEntity[]> {
+    const db = await getDb();
+    const collection = db.collection(collectionName);
+    const pipeline = [
+      {
+        $group: {
+          _id: { $toLower: `$${fieldName}` },
+          count: { $sum: 1 },
+        },
+      },
+    ];
+    const result = await collection
+      .aggregate(pipeline)
+      .sort({ _id: 1 })
+      .toArray();
+    console.log('aggregate', result);
+    return result.map((r) => ({ _id: r._id, count: r.count }));
+  }
+
   async create(collectionName: string, data: any): Promise<MongoEntity> {
     const db = await getDb();
     const collection = db.collection(collectionName);

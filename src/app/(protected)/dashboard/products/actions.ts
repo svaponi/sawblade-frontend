@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { Product, products } from '@/domain/products';
+import { CategoryCount, Product, products } from '@/domain/products';
 
 const FormSchema = z.object({
   title: z.string({
@@ -160,6 +160,10 @@ export async function getProductPageCount(query?: string): Promise<number> {
 
 export async function getById(id: string) {
   return await products.getById(id);
+}
+
+export async function aggregateCategories(): Promise<CategoryCount[]> {
+  return await products.aggregateCategories();
 }
 
 export async function getProductCategories(): Promise<string[]> {

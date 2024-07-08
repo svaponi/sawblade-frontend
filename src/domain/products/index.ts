@@ -18,6 +18,11 @@ export interface ProductFilters {
   query?: string | null;
 }
 
+export interface CategoryCount {
+  category: string;
+  count: number;
+}
+
 class ProductRepository implements CrudDataRepository<Product, ProductFilters> {
   async getById(id: string): Promise<Product | null> {
     const result = await repository.getById('products', id);
@@ -66,8 +71,13 @@ class ProductRepository implements CrudDataRepository<Product, ProductFilters> {
     await repository.deleteById('products', id);
   }
 
+  async aggregateCategories(): Promise<CategoryCount[]> {
+    let result = await repository.aggregate('products', 'category');
+    return result.map((r) => ({ category: r._id.toString(), count: r.count }));
+  }
+
   async distinctCategories(): Promise<string[]> {
-    return await repository.distinct<string>('products', 'productCategory');
+    return await repository.distinct<string>('products', 'category');
   }
 
   async distinctBrands(): Promise<string[]> {
