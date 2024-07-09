@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { loginWithGoogle } from '@/actions/auth';
 import { useFormState, useFormStatus } from 'react-dom';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/components/spinner';
 import { PropsWithChildren } from 'react';
 
 interface Props {

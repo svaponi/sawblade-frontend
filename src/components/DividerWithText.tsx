@@ -9,9 +9,9 @@ interface Props extends PropsWithChildren {
 export default function DividerWithText({ text, className, children }: Props) {
   return (
     <div className={cn('relative flex items-center ', className)}>
-      <div className="flex-grow border-t border-gray-300"></div>
-      <span className="mx-4 flex-shrink text-gray-400">{text ?? children}</span>
-      <div className="flex-grow border-t border-gray-300"></div>
+      <div className="flex-grow border-t"></div>
+      <span className="mx-4 flex-shrink text-muted-foreground">{text ?? children}</span>
+      <div className="flex-grow border-t"></div>
     </div>
   );
 }

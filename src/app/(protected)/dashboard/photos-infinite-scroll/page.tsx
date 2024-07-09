@@ -1,5 +1,5 @@
 import { getPhotoScroll } from '@/app/(protected)/dashboard/photos-infinite-scroll/actions';
-import Search from '@/app/(protected)/dashboard/components/Search';
+import Search from '@/components/Search';
 import React, { Suspense } from 'react';
 import ScrollList from '@/app/(protected)/dashboard/photos-infinite-scroll/ScrollList';
 
@@ -17,7 +17,7 @@ export default async function Page(props: Props) {
           <div className="text-2xl font-semibold">
             <h3>Photos</h3>
           </div>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-muted-foreground">
             <h3>All photos in the system.</h3>
           </div>
         </div>

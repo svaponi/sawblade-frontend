@@ -1,5 +1,5 @@
-import Search from '@/app/(protected)/dashboard/components/Search';
-import PageList from '@/app/components/PageList';
+import Search from '@/components/Search';
+import PageList from '@/components/PageList';
 import { Photo } from '@/db/photos';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
@@ -22,7 +22,7 @@ export default async function Page(props: Props) {
           <div className="text-2xl font-semibold">
             <h3>Photos</h3>
           </div>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-muted-foreground">
             <h3>All photos in the system.</h3>
           </div>
         </div>
@@ -62,8 +62,8 @@ function ItemComponent({ item }: { item: Photo }) {
           />
           <div className="grid flex-1 gap-1">
             <h3 className="font-semibold">{item.title}</h3>
-            <p className="text-sm text-gray-500">{item.description}</p>
-            <p className="text-xs text-gray-400">
+            <p className="text-sm text-muted-foreground">{item.description}</p>
+            <p className="text-xs text-muted-foreground">
               ID: {item.id} / User: {item.user}
             </p>
           </div>

@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import Pagination from '@/app/components/Pagination';
+import Pagination from '@/components/Pagination';
 import { WithId } from '@/db';
 
 export interface PageResult<T> {

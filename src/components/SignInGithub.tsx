@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/components/spinner';
 import Image from 'next/image';
 import { loginWithGithub } from '@/actions/auth';
 import { useFormState, useFormStatus } from 'react-dom';

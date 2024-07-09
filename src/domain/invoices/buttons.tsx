@@ -25,7 +25,7 @@ export function UpdateInvoice({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/invoices/${id}/edit`}
-      className="rounded-md border p-2 hover:bg-gray-100"
+      className="rounded-md border p-2"
     >
       <PencilIcon className="w-5" />
     </Link>
@@ -37,7 +37,7 @@ export function DeleteInvoice({ id }: { id: string }) {
 
   return (
     <form action={deleteInvoiceWithId}>
-      <button className="rounded-md border p-2 hover:bg-gray-100">
+      <button className="rounded-md border p-2">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />
       </button>
@@ -59,7 +59,7 @@ export function InvoiceStatus({ status }: { status: string }) {
       {status === 'pending' ? (
         <>
           Pending
-          <ClockIcon className="ml-1 w-4 text-gray-500" />
+          <ClockIcon className="ml-1 w-4" />
         </>
       ) : null}
       {status === 'paid' ? (

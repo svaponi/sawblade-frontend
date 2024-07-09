@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { MenuIcon, SawbladeIcon } from '@/components/ui/icons';
+import { MenuIcon, SawbladeIcon } from '@/components/icons';
 import { auth } from '@/auth/auth';
-import { UserMenu } from '@/app/components/UserMenu';
+import { UserMenu } from '@/components/UserMenu';
 import LoginButton from '@/app/(public)/login';
 import { ThemeToggle } from '@/components/theme-toggle';
 
@@ -22,7 +22,7 @@ export default async function Header() {
   const links = user ? protectedLinks : publicLinks;
   const comp = user ? <UserMenu user={user} /> : <LoginButton />;
   return (
-    <div className="border-b border-gray-100">
+    <div className="border-b">
       <div className="container mx-auto flex max-w-7xl items-center justify-end p-4 md:justify-between md:px-6">
         <nav className="hidden items-center space-x-4 text-sm md:flex">
           <Link className="flex items-center gap-2 font-semibold" href="/">
@@ -30,12 +30,15 @@ export default async function Header() {
             <span className="">Sawblade</span>
           </Link>
           {links.map((link) => (
-            <Link className="text-gray-900" href={link.href} key={link.title}>
+            <Link className="" href={link.href} key={link.title}>
               {link.title}
             </Link>
           ))}
         </nav>
-        <div className="hidden items-center space-x-4 md:flex">{comp}</div>
+        <div className="hidden items-center space-x-4 md:flex">
+          <ThemeToggle />
+          {comp}
+        </div>
         <div className="flex items-center space-x-4 md:hidden">
           <ThemeToggle />
           {comp}

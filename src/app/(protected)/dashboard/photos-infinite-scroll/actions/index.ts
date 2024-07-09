@@ -1,5 +1,5 @@
 'use server';
-import { ScrollResult } from '@/app/components/ScrollableList';
+import { ScrollResult } from '@/components/ScrollableList';
 import { getAllPhotos, Photo as PhotoAlias } from '@/db/photos';
 
 const PAGE_SIZE = 5;

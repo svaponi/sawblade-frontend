@@ -1,6 +1,6 @@
 import {CalendarIcon} from '@heroicons/react/24/outline';
 import {aggregateCategories} from '@/app/(protected)/dashboard/products/actions';
-import {CategoryCount} from '@/domain/products';
+import {CategoryCount} from '@/domain/products'; // This component is representational only.
 
 // This component is representational only.
 // For data visualization UI, check out:
@@ -16,21 +16,21 @@ export default async function ProductChart() {
   const { yAxisLabels, topLabel } = generateYAxis(categoryCounts);
 
   if (!categoryCounts || categoryCounts.length === 0) {
-    return <p className="mt-4 text-gray-400">No data available.</p>;
+    return <p className="text-muted-foreground mt-4">No data available.</p>;
   }
 
   return (
     <div className="w-full md:col-span-4">
       <h2 className={`mb-4 text-xl md:text-2xl`}>Products by category</h2>
-      <div className="rounded-xl bg-gray-50 p-4">
+      <div className="bg-muted rounded-xl p-4">
         <div className="">
           {/* y-axis */}
 
           <div
-            className="mb-6 flex justify-between text-sm text-gray-400"
+            className="text-muted-foreground mb-6 flex justify-between text-sm"
             style={{ height: `${chartHeight}px` }}
           >
-            <div className="mb-6 flex flex-col justify-between text-sm text-gray-400 h-full">
+            <div className="text-muted-foreground mb-6 flex h-full flex-col justify-between text-sm">
               {yAxisLabels.map((label) => (
                 <p key={label}>{label}</p>
               ))}
@@ -48,7 +48,7 @@ export default async function ProductChart() {
                   }}
                 ></div>
                 {/* x-axis */}
-                <p className="-rotate-45 text-sm text-gray-400 ">
+                <p className="text-muted-foreground -rotate-45 text-sm">
                   {month.category}
                 </p>
               </div>
@@ -56,8 +56,8 @@ export default async function ProductChart() {
           </div>
         </div>
         <div className="flex items-center pb-2 pt-6">
-          <CalendarIcon className="h-5 w-5 text-gray-500" />
-          <h3 className="ml-2 text-sm text-gray-500 ">Last 12 months</h3>
+          <CalendarIcon className="text-muted-foreground h-5 w-5" />
+          <h3 className="text-muted-foreground ml-2 text-sm">Last 12 months</h3>
         </div>
       </div>
     </div>

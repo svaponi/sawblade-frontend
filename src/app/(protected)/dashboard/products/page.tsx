@@ -1,11 +1,11 @@
-import Search from '@/app/(protected)/dashboard/components/Search';
+import Search from '@/components/Search';
 import React, { Suspense } from 'react';
 import {
   deleteById,
   getProductPage,
   getProductPageCount,
 } from '@/app/(protected)/dashboard/products/actions';
-import PageList from '@/app/components/PageList';
+import PageList from '@/components/PageList';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -28,7 +28,7 @@ export default async function Page(props: Props) {
           <div className="text-2xl font-semibold">
             <h3>Products</h3>
           </div>
-          <div className="text-sm text-gray-500">
+          <div className="text-muted-foreground text-sm">
             <h3>All products in the system.</h3>
           </div>
         </div>
@@ -71,8 +71,10 @@ async function SuspendedList({ searchParams }: Props) {
               />
               <div className="grid flex-1 gap-1">
                 <h3 className="font-semibold">{item.title}</h3>
-                <p className="text-sm text-gray-500">{item.description}</p>
-                <p className="text-xs text-gray-400">{item.id}</p>
+                <p className="text-muted-foreground text-sm">
+                  {item.description}
+                </p>
+                <p className="text-muted-foreground text-xs">{item.id}</p>
               </div>
             </div>
           </Link>
@@ -104,11 +106,11 @@ function CreateButton() {
 
 function UpdateButton({ id }: { id: string }) {
   return (
-    <Link
-      href={`/dashboard/products/${id}/edit`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <PencilIcon className="w-5" />
+    <Link href={`/dashboard/products/${id}/edit`}>
+      <Button variant={'outline'}>
+        <PencilIcon className="w-5" />
+        <span className="sr-only">Update</span>
+      </Button>
     </Link>
   );
 }
@@ -118,10 +120,10 @@ function DeleteButton({ id }: { id: string }) {
 
   return (
     <form action={deleteInvoiceWithId}>
-      <button className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Delete</span>
+      <Button variant={'outline'}>
         <TrashIcon className="w-5" />
-      </button>
+        <span className="sr-only">Delete</span>
+      </Button>
     </form>
   );
 }

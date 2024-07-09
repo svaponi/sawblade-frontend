@@ -1,6 +1,6 @@
 'use server';
 import { getAllPhotos, Photo } from '@/db/photos';
-import { PageResult } from '@/app/components/PageList';
+import { PageResult } from '@/components/PageList';
 
 const PAGE_SIZE = 5;
 

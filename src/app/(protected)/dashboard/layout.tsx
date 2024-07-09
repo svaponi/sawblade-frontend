@@ -1,9 +1,9 @@
-import { LogOutIcon, SawbladeIcon } from '@/components/ui/icons';
+import { LogOutIcon, SawbladeIcon } from '@/components/icons';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { auth } from '@/auth/auth';
-import { UserMenu } from '@/app/components/UserMenu';
-import NavLinks from '@/app/(protected)/dashboard/components/NavLinks';
+import { UserMenu } from '@/components/UserMenu';
+import NavLinks from '@/components/NavLinks';
 import { PropsWithChildren } from 'react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { redirect } from 'next/navigation';
@@ -68,16 +68,16 @@ async function Header({ user }: { user: User }) {
   return (
     <header className="flex h-full items-center px-4 md:gap-4">
       <div className="flex h-14 items-center px-4">
-        <Link className="flex items-center gap-2 font-semibold" href="/">
+        <Link className="flex items-center gap-2" href="/">
           <SawbladeIcon className="h-6 w-6" />
-          <span className="">Sawblade</span>
+          <span className="font-semibold">Sawblade</span>
         </Link>
       </div>
       <div className="ml-auto flex items-center gap-4">
         <form>
           <div className="relative">
             <Input
-              className="bg-gray-100/60 md:w-[200px]"
+              className="bg-muted md:w-[200px]"
               placeholder="Search orders..."
               type="search"
             />
@@ -101,7 +101,7 @@ async function Sidebar({ user }: { user: User }) {
       </div>
       <div className="border-t p-4">
         <Link href={'/'}>
-          <button className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-500 transition-all hover:text-gray-900">
+          <button className="text-muted-foreground flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all">
             <LogOutIcon className="h-4 w-4" />
             Exit dashboard
           </button>

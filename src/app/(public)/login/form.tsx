@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { login } from '@/actions/authcredentials';
 import Link from 'next/link';
 import { useFormState, useFormStatus } from 'react-dom';
-import { InputCSRF } from '@/app/(public)/components/InputCSRF';
+import { InputCSRF } from '@/components/InputCSRF';
 
 export function LoginForm() {
   const [state, action] = useFormState(login, undefined);
@@ -20,7 +20,7 @@ export function LoginForm() {
           <Input id="email" name="email" placeholder="jdoe@example.com" />
         </div>
         {state?.errors?.email && (
-          <p className="text-sm text-red-500">{state.errors.email}</p>
+          <p className="text-destructive text-sm">{state.errors.email}</p>
         )}
         <div className="mt-4">
           <div className="flex items-center justify-between">
@@ -31,11 +31,11 @@ export function LoginForm() {
           </div>
           <Input id="password" type="password" name="password" />
           {state?.errors?.password && (
-            <p className="text-sm text-red-500">{state.errors.password}</p>
+            <p className="text-destructive text-sm">{state.errors.password}</p>
           )}
         </div>
         {state?.message && (
-          <p className="text-sm text-red-500">{state.message}</p>
+          <p className="text-destructive text-sm">{state.message}</p>
         )}
         <LoginButton />
       </div>

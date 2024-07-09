@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
-import Search from '@/app/(protected)/dashboard/components/Search';
+import Search from '@/components/Search';
 import { CreateInvoice } from '@/domain/invoices/buttons';
-import Pagination from '@/app/components/Pagination';
+import Pagination from '@/components/Pagination';
 import { countInvoices } from '@/domain/invoices/actions';
 import InvoicesTable from '@/domain/invoices/table';
 import { InvoicesTableSkeleton } from '@/domain/invoices/skeletons';

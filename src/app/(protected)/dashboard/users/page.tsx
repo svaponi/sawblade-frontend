@@ -1,7 +1,7 @@
-import Search from '@/app/(protected)/dashboard/components/Search';
+import Search from '@/components/Search';
 import React, { Suspense } from 'react';
 import { getUsers } from '@/app/(protected)/dashboard/users/actions';
-import PageList from '@/app/components/PageList';
+import PageList from '@/components/PageList';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -22,7 +22,7 @@ export default async function Page(props: Props) {
           <div className="text-2xl font-semibold">
             <h3>Users</h3>
           </div>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-muted-foreground">
             <h3>All users in the system.</h3>
           </div>
         </div>
@@ -62,7 +62,7 @@ function ItemComponent({ item }: { item: AppUser }) {
           />
           <div className="grid flex-1 gap-1">
             <h3 className="font-semibold">{item.name}</h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               {item.email} [{item.id}]
             </p>
           </div>

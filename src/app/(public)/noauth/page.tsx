@@ -7,7 +7,7 @@ export default async function Page() {
         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
           Access Denied
         </h1>
-        <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+        <p className="mx-auto max-w-[600px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
           You are not authorized to view this page. Please contact the
           <Link
             href={'mailto:admin@example.com'}

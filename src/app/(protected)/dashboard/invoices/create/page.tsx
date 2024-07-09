@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import Breadcrumbs from '@/app/components/Breadcrumbs';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import Form from '@/domain/invoices/create-form';
 import { fetchCustomers } from '@/domain/invoices/actions';
 

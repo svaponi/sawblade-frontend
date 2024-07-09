@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { getById } from '@/app/(protected)/dashboard/products/actions';
-import Breadcrumbs from '@/app/components/Breadcrumbs';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import EditForm from '@/app/(protected)/dashboard/products/[id]/edit/EditForm';
 import { fetchCustomers } from '@/domain/invoices/actions';
 

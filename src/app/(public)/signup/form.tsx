@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { signup } from '@/actions/authcredentials';
 import { useFormState, useFormStatus } from 'react-dom';
-import { InputCSRF } from '@/app/(public)/components/InputCSRF';
+import { InputCSRF } from '@/components/InputCSRF';
 
 export function SignupForm() {
   const [state, action] = useFormState(signup, undefined);
@@ -19,21 +19,21 @@ export function SignupForm() {
           <Input id="name" name="name" placeholder="John Doe" />
         </div>
         {state?.errors?.name && (
-          <p className="text-sm text-red-500">{state.errors.name}</p>
+          <p className="text-destructive text-sm">{state.errors.name}</p>
         )}
         <div>
           <Label htmlFor="email">Email</Label>
           <Input id="email" name="email" placeholder="jdoe@example.com" />
         </div>
         {state?.errors?.email && (
-          <p className="text-sm text-red-500">{state.errors.email}</p>
+          <p className="text-destructive text-sm">{state.errors.email}</p>
         )}
         <div>
           <Label htmlFor="password">Password</Label>
           <Input id="password" name="password" type="password" />
         </div>
         {state?.errors?.password && (
-          <div className="text-sm text-red-500">
+          <div className="text-destructive text-sm">
             <p>Password must:</p>
             <ul>
               {state.errors.password.map((error) => (
@@ -43,7 +43,7 @@ export function SignupForm() {
           </div>
         )}
         {state?.message && (
-          <p className="text-sm text-red-500">{state.message}</p>
+          <p className="text-destructive text-sm">{state.message}</p>
         )}
         <SignupButton />
       </div>

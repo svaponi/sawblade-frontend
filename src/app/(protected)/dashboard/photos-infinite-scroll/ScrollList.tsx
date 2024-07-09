@@ -3,7 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import ScrollableList, { ScrollResult } from '@/app/components/ScrollableList';
+import ScrollableList, { ScrollResult } from '@/components/ScrollableList';
 import {
   getPhotoScroll,
   Photo,
@@ -47,8 +47,8 @@ function ItemComponent({ item }: { item: Photo }) {
             />
             <div className="grid flex-1 gap-1">
               <h3 className="font-semibold">{item.title}</h3>
-              <p className="text-sm text-gray-500">{item.description}</p>
-              <p className="text-xs text-gray-400">
+              <p className="text-sm text-muted-foreground">{item.description}</p>
+              <p className="text-xs text-muted-foreground">
                 ID: {item.id} / User: {item.user}
               </p>
             </div>

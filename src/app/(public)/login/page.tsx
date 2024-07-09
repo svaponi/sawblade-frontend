@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { LoginForm } from './form';
-import DividerWithText from '@/app/(public)/components/DividerWithText';
-import SignInGoogle from '@/app/(public)/components/SignInGoogle';
-import SignInGithub from '@/app/(public)/components/SignInGithub';
+import DividerWithText from '@/components/DividerWithText';
+import SignInGoogle from '@/components/SignInGoogle';
+import SignInGithub from '@/components/SignInGithub';
 
 export default function Page() {
   return (

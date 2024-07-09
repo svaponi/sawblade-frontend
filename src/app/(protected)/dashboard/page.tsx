@@ -1,4 +1,5 @@
 import ProductChart from '@/components/ProductChart';
+import { Button } from '@/components/ui/button';
 
 export default function Page() {
   const orders = [
@@ -22,8 +23,15 @@ export default function Page() {
     },
   ];
   return (
-    <div className="grid gap-4 md:gap-8">
+    <div className="grid gap-8">
       <ProductChart />
+      <div className="flex flex-col justify-center gap-2 min-[400px]:flex-row">
+        <Button variant={'default'}>default</Button>
+        <Button variant={'secondary'}>secondary</Button>
+        <Button variant={'outline'}>outline</Button>
+        <Button variant={'ghost'}>ghost</Button>
+        <Button variant={'destructive'}>destructive</Button>
+      </div>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { UserMenuDropdown } from '@/app/components/UserMenuDropdown';
+import { UserMenuDropdown } from '@/components/UserMenuDropdown';
 import { User } from 'next-auth';
 
 interface Props {

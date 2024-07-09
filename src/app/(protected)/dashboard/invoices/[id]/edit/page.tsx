@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { fetchCustomers, fetchInvoiceById } from '@/domain/invoices/actions';
-import Breadcrumbs from '@/app/components/Breadcrumbs';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import EditInvoiceForm from '@/domain/invoices/edit-form';
 
 export const metadata: Metadata = {

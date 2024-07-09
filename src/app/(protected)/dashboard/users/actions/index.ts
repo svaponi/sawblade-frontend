@@ -1,6 +1,6 @@
 'use server';
 import { AppUser, countUsers, findUsers } from '@/db/users';
-import { PageResult } from '@/app/components/PageList';
+import { PageResult } from '@/components/PageList';
 
 const PAGE_SIZE = 6;
 
