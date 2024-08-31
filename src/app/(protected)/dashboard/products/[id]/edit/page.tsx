@@ -6,7 +6,7 @@ import EditForm from '@/app/(protected)/dashboard/products/[id]/edit/EditForm';
 import { fetchCustomers } from '@/domain/invoices/actions';
 
 export const metadata: Metadata = {
-  title: 'Edit Invoice',
+  title: 'Edit Product',
 };
 
 interface Props {

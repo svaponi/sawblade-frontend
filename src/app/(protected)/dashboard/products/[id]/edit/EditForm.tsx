@@ -26,7 +26,7 @@ export default function EditForm({
     <form action={dispatch}>
       <div className="flex flex-col gap-4">
         <div className="">
-          <label htmlFor="title" className="text-sm font-medium">
+          <label htmlFor="title" className="mb-2 block text-sm font-medium">
             Title
           </label>
           <div className="">
@@ -40,7 +40,7 @@ export default function EditForm({
           <div id="title-error" aria-live="polite" aria-atomic="true">
             {state.errors?.title &&
               state.errors.title.map((error: string) => (
-                <p className="text-destructive mt-2 text-sm" key={error}>
+                <p className="mt-2 text-sm text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -63,7 +63,7 @@ export default function EditForm({
           <div id="brand-error" aria-live="polite" aria-atomic="true">
             {state.errors?.brand &&
               state.errors.brand.map((error: string) => (
-                <p className="text-destructive mt-2 text-sm" key={error}>
+                <p className="mt-2 text-sm text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -88,7 +88,7 @@ export default function EditForm({
           <div id="description-error" aria-live="polite" aria-atomic="true">
             {state.errors?.description &&
               state.errors.description.map((error: string) => (
-                <p className="text-destructive mt-2 text-sm" key={error}>
+                <p className="mt-2 text-sm text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -110,7 +110,7 @@ export default function EditForm({
           <div id="category-error" aria-live="polite" aria-atomic="true">
             {state.errors?.category &&
               state.errors.category.map((error: string) => (
-                <p className="text-destructive mt-2 text-sm" key={error}>
+                <p className="mt-2 text-sm text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -135,7 +135,7 @@ export default function EditForm({
           <div id="price-error" aria-live="polite" aria-atomic="true">
             {state.errors?.price &&
               state.errors.price.map((error: string) => (
-                <p className="text-destructive mt-2 text-sm" key={error}>
+                <p className="mt-2 text-sm text-destructive" key={error}>
                   {error}
                 </p>
               ))}
@@ -143,7 +143,7 @@ export default function EditForm({
         </div>
         <div aria-live="polite" aria-atomic="true">
           {state.message ? (
-            <p className="text-destructive my-2 text-sm">{state.message}</p>
+            <p className="my-2 text-sm text-destructive">{state.message}</p>
           ) : null}
         </div>
 
