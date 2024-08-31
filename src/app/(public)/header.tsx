@@ -5,17 +5,9 @@ import { UserMenu } from '@/components/UserMenu';
 import LoginButton from '@/app/(public)/login';
 import { ThemeToggle } from '@/components/theme-toggle';
 
-const publicLinks = [
-  { href: '/', title: 'Home' },
-  { href: '#', title: 'About' },
-  { href: '#', title: 'Services' },
-  { href: '#', title: 'Contact' },
-];
+const publicLinks = [{ href: '/about', title: 'About' }];
 
-const protectedLinks = [
-  { href: '/', title: 'Home' },
-  { href: '/dashboard', title: 'Dashboard' },
-];
+const protectedLinks = [{ href: '/dashboard', title: 'Dashboard' }];
 export default async function Header() {
   const session = await auth();
   const user = session?.user;

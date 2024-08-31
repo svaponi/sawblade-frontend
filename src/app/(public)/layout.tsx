@@ -7,11 +7,11 @@ export default async function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <>
       <Header />
-      <main className="container mx-auto mt-6 flex max-w-7xl justify-center">
+      <main className="container mx-auto mt-6 flex min-h-full max-w-7xl justify-center">
         {children}
       </main>
-    </div>
+    </>
   );
 }
