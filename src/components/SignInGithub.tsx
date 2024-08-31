@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { loginWithGithub } from '@/actions/auth';
 import { useFormState, useFormStatus } from 'react-dom';
 import { PropsWithChildren } from 'react';
+import { useTheme } from 'next-themes';
 
 interface Props {
   text?: string;
@@ -21,17 +22,23 @@ export default function SignInGithub({ text }: Props) {
 
 function SignInButton({ children }: PropsWithChildren) {
   const { pending } = useFormStatus();
+  const { resolvedTheme } = useTheme();
   return (
     <Button aria-disabled={pending} type="submit" className="w-full">
       {pending ? (
-        <Spinner size={'small'} style={{ marginRight: '0.5rem' }} />
+        <Spinner
+          size={'small'}
+          className="dark:invert"
+          style={{ marginRight: '0.5rem' }}
+        />
       ) : (
         <Image
           src="https://authjs.dev/img/providers/github.svg"
           alt="Github logo"
           height="24"
           width="24"
-          style={{ filter: 'invert(1)', marginRight: '0.5rem' }}
+          className="invert dark:invert-0"
+          style={{ marginRight: '0.5rem' }}
         />
       )}
       {children}

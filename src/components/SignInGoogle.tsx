@@ -24,7 +24,11 @@ function SignInButton({ children }: PropsWithChildren) {
   return (
     <Button aria-disabled={pending} type="submit" className="w-full">
       {pending ? (
-        <Spinner size={'small'} style={{ marginRight: '0.5rem' }} />
+        <Spinner
+          size={'small'}
+          className="dark:invert"
+          style={{ marginRight: '0.5rem' }}
+        />
       ) : (
         <Image
           src="https://authjs.dev/img/providers/google.svg"
