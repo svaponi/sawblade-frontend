@@ -1,5 +1,4 @@
 import { LogOutIcon, SawbladeIcon } from '@/components/icons';
-import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { auth } from '@/auth/auth';
 import { UserMenu } from '@/components/UserMenu';
@@ -43,29 +42,52 @@ export default async function Layout({ children }: PropsWithChildren) {
   const sidebarWidth = '20rem';
   const headerHeight = '4rem';
   return (
-    <div className="flex h-screen">
-      <header
-        className={`fixed left-0 top-0 z-10 w-full border-b`}
-        style={{ height: headerHeight, backdropFilter: 'blur(16px)' }}
-      >
-        <Header user={user} />
-      </header>
-      <aside
-        className={`fixed left-0 top-0 h-full flex-shrink-0 border-r`}
-        style={{ width: sidebarWidth, paddingTop: headerHeight }}
-      >
-        <Sidebar user={user} />
-      </aside>
-
-      <div className="min-w-0 flex-1">
-        <main
-          className={`p-4`}
-          style={{ marginLeft: sidebarWidth, marginTop: headerHeight }}
+    <>
+      <div className="flex h-screen flex-col lg:hidden">
+        <header
+          className={`fixed left-0 top-0 z-10 w-full border-b`}
+          style={{ height: headerHeight, backdropFilter: 'blur(16px)' }}
         >
-          {children}
-        </main>
+          <Header user={user} />
+        </header>
+        <div className="min-w-0 flex-1">
+          <main className={`p-4`} style={{ marginTop: headerHeight }}>
+            Your device is too small.
+          </main>
+        </div>
+        <div className="border-t p-4">
+          <Link href={'/'}>
+            <button className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-all">
+              <LogOutIcon className="h-4 w-4" />
+              Exit dashboard
+            </button>
+          </Link>
+        </div>
       </div>
-    </div>
+      <div className="hidden h-screen lg:flex">
+        <header
+          className={`fixed left-0 top-0 z-10 w-full border-b`}
+          style={{ height: headerHeight, backdropFilter: 'blur(16px)' }}
+        >
+          <Header user={user} />
+        </header>
+        <aside
+          className={`fixed left-0 top-0 h-full flex-shrink-0 border-r`}
+          style={{ width: sidebarWidth, paddingTop: headerHeight }}
+        >
+          <Sidebar user={user} />
+        </aside>
+
+        <div className="min-w-0 flex-1">
+          <main
+            className={`p-4`}
+            style={{ marginLeft: sidebarWidth, marginTop: headerHeight }}
+          >
+            {children}
+          </main>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -79,15 +101,15 @@ async function Header({ user }: { user: User }) {
         </Link>
       </div>
       <div className="ml-auto flex items-center gap-4">
-        <form>
-          <div className="relative">
-            <Input
-              className="bg-muted md:w-[200px]"
-              placeholder="Search orders..."
-              type="search"
-            />
-          </div>
-        </form>
+        {/*<form>*/}
+        {/*  <div className="relative">*/}
+        {/*    <Input*/}
+        {/*      className="bg-muted md:w-[200px]"*/}
+        {/*      placeholder="Search orders..."*/}
+        {/*      type="search"*/}
+        {/*    />*/}
+        {/*  </div>*/}
+        {/*</form>*/}
         <ThemeToggle />
         {user && <UserMenu user={user} />}
       </div>

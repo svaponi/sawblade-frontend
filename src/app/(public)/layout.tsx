@@ -9,7 +9,7 @@ export default async function Layout({
   return (
     <>
       <Header />
-      <main className="container mx-auto mt-6 flex min-h-full max-w-7xl justify-center">
+      <main className="mx-auto my-6 flex max-w-7xl justify-center">
         {children}
       </main>
     </>
