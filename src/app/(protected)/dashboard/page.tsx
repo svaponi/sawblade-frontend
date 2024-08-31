@@ -1,27 +1,22 @@
 import ProductChart from '@/components/ProductChart';
 import { Button } from '@/components/ui/button';
+import { auth } from '@/auth/auth';
 
-export default function Page() {
-  const orders = [
-    {
-      id: 1,
-      name: 'Crispy Chicken Burger',
-      image: '/placeholder.svg',
-      orderId: '#123456',
-    },
-    {
-      id: 2,
-      name: 'Iced Latte',
-      image: '/placeholder.svg',
-      orderId: '#654321',
-    },
-    {
-      id: 3,
-      name: 'Pepperoni Pizza',
-      image: '/placeholder.svg',
-      orderId: '#987654',
-    },
-  ];
+export default async function Page() {
+  const session = await auth();
+  const isAdmin = session?.user?.role === 'admin';
+  return isAdmin ? <Admin /> : <Nobody />;
+}
+
+function Nobody() {
+  return (
+    <div className="grid gap-8">
+      <p>Not much to see here since we don’t have details on you yet.</p>
+    </div>
+  );
+}
+
+function Admin() {
   return (
     <div className="grid gap-8">
       <ProductChart />

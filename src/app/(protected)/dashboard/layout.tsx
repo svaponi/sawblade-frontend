@@ -11,12 +11,20 @@ import { User } from 'next-auth';
 import { getPathname } from '@/lib/path';
 
 const navLinks = [
-  { title: 'Home', href: '/dashboard' },
-  { title: 'Users', href: '/dashboard/users', role: 'admin' },
-  { title: 'Photos', href: '/dashboard/photos' },
-  { title: 'Photos V2', href: '/dashboard/photos-infinite-scroll' },
-  { title: 'Invoices', href: '/dashboard/invoices', role: 'admin' },
-  { title: 'Products', href: '/dashboard/products' },
+  { title: 'Home', href: '/dashboard', roles: ['admin', null] },
+  { title: 'Users', href: '/dashboard/users', roles: ['admin'] },
+  {
+    title: 'Photos',
+    href: '/dashboard/photos-infinite-scroll',
+    roles: ['admin', null],
+  },
+  {
+    title: 'Photos Basic',
+    href: '/dashboard/photos',
+    roles: ['admin'],
+  },
+  { title: 'Invoices', href: '/dashboard/invoices', roles: ['admin'] },
+  { title: 'Products', href: '/dashboard/products', roles: ['admin'] },
 ];
 
 export default async function Layout({ children }: PropsWithChildren) {
@@ -25,15 +33,12 @@ export default async function Layout({ children }: PropsWithChildren) {
   if (!user) {
     return redirect('/noauth');
   }
-  const isAdmin = user.role === 'admin';
-  if (!isAdmin) {
-    const pathname = getPathname();
-    const adminPaths = navLinks
-      .filter((link) => link.role === 'admin')
-      .map((link) => link.href);
-    if (adminPaths.some((path) => pathname.startsWith(path))) {
-      return redirect('/noauth');
-    }
+  const pathname = getPathname();
+  const allowedPaths = navLinks
+    .filter((link) => link.roles.includes(user.role ?? null))
+    .map((link) => link.href);
+  if (!allowedPaths.some((path) => pathname.startsWith(path))) {
+    return redirect('/noauth');
   }
   const sidebarWidth = '20rem';
   const headerHeight = '4rem';
@@ -91,8 +96,8 @@ async function Header({ user }: { user: User }) {
 }
 
 async function Sidebar({ user }: { user: User }) {
-  const links = navLinks.filter(
-    (link) => link.role === undefined || link.role === user?.role,
+  const links = navLinks.filter((link) =>
+    link.roles.includes(user.role ?? null),
   );
   return (
     <div className="flex h-full flex-col gap-2">
@@ -101,7 +106,7 @@ async function Sidebar({ user }: { user: User }) {
       </div>
       <div className="border-t p-4">
         <Link href={'/'}>
-          <button className="text-muted-foreground flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all">
+          <button className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-all">
             <LogOutIcon className="h-4 w-4" />
             Exit dashboard
           </button>

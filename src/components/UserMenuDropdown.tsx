@@ -30,15 +30,42 @@ import {
 import { PropsWithChildren } from 'react';
 import { logout } from '@/actions/auth';
 import { User as AuthUser } from 'next-auth';
+import Link from 'next/link';
 
 interface Props extends PropsWithChildren {
   user: AuthUser;
 }
 
-export function UserMenuDropdown({ children, user }: Props) {
-  let title = 'My Account';
-  if (user.role) title += ` (${user.role})`;
+export function UserMenuDropdown(props: Props) {
+  const { user } = props;
   const isAdmin = user.role === 'admin';
+  return isAdmin ? <AdminMenuDropdown {...props} /> : <Nobody {...props} />;
+}
+
+function Nobody({ children }: Props) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <User className="mr-2 h-4 w-4" />
+          <Link href="/dashboard/profile">Profile</Link>
+          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={async () => await logout()}>
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Log out</span>
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function AdminMenuDropdown({ children, user }: Props) {
+  let title = `My Account (${user.role})`;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
@@ -48,7 +75,7 @@ export function UserMenuDropdown({ children, user }: Props) {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
+            <Link href="/dashboard/profile">Profile</Link>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
@@ -67,45 +94,41 @@ export function UserMenuDropdown({ children, user }: Props) {
             <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        {isAdmin ? (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Users className="mr-2 h-4 w-4" />
-                <span>Team</span>
-              </DropdownMenuItem>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  <span>Invite users</span>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent>
-                    <DropdownMenuItem>
-                      <Mail className="mr-2 h-4 w-4" />
-                      <span>Email</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <MessageSquare className="mr-2 h-4 w-4" />
-                      <span>Message</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <PlusCircle className="mr-2 h-4 w-4" />
-                      <span>More...</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-              <DropdownMenuItem>
-                <Plus className="mr-2 h-4 w-4" />
-                <span>New Team</span>
-                <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </>
-        ) : null}
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Users className="mr-2 h-4 w-4" />
+            <span>Team</span>
+          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <UserPlus className="mr-2 h-4 w-4" />
+              <span>Invite users</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>
+                  <Mail className="mr-2 h-4 w-4" />
+                  <span>Email</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <MessageSquare className="mr-2 h-4 w-4" />
+                  <span>Message</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  <span>More...</span>
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuItem>
+            <Plus className="mr-2 h-4 w-4" />
+            <span>New Team</span>
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LifeBuoy className="mr-2 h-4 w-4" />
