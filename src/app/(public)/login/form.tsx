@@ -20,7 +20,7 @@ export function LoginForm() {
           <Input id="email" name="email" placeholder="jdoe@example.com" />
         </div>
         {state?.errors?.email && (
-          <p className="text-destructive text-sm">{state.errors.email}</p>
+          <p className="text-sm text-destructive">{state.errors.email}</p>
         )}
         <div className="mt-4">
           <div className="flex items-center justify-between">
@@ -31,12 +31,14 @@ export function LoginForm() {
           </div>
           <Input id="password" type="password" name="password" />
           {state?.errors?.password && (
-            <p className="text-destructive text-sm">{state.errors.password}</p>
+            <p className="text-sm text-destructive">{state.errors.password}</p>
           )}
         </div>
-        {state?.message && (
-          <p className="text-destructive text-sm">{state.message}</p>
-        )}
+        <div className="m-2 text-center">
+          {state?.message && (
+            <p className="text-sm text-destructive">{state.message}</p>
+          )}
+        </div>
         <LoginButton />
       </div>
     </form>
@@ -47,7 +49,7 @@ export function LoginButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button aria-disabled={pending} type="submit" className="mt-4 w-full">
+    <Button aria-disabled={pending} type="submit" className="w-full">
       {pending ? 'Submitting...' : 'Login'}
     </Button>
   );
