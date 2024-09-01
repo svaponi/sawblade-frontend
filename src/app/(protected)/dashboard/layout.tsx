@@ -12,6 +12,13 @@ import { getPathname } from '@/lib/path';
 const navLinks = [
   { title: 'Home', href: '/dashboard', roles: ['admin', null] },
   { title: 'Users', href: '/dashboard/users', roles: ['admin'] },
+  { title: 'APIs', href: '/dashboard/apis', roles: ['admin'] },
+  { title: 'Clients', href: '/dashboard/clients', roles: ['admin'] },
+  {
+    title: 'Client Audiences',
+    href: '/dashboard/client-audiences',
+    roles: ['admin'],
+  },
   {
     title: 'Photos',
     href: '/dashboard/photos-infinite-scroll',
