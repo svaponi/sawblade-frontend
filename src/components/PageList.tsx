@@ -1,4 +1,4 @@
-import { ComponentType } from 'react';
+import React, { ComponentType } from 'react';
 import Pagination from '@/components/Pagination';
 import { WithId } from '@/db';
 
@@ -14,8 +14,11 @@ interface Props<T> {
   ItemComponent: PageItemComponent<T>;
 }
 
-export default function PageList<T extends WithId>({ result, ItemComponent }: Props<T>) {
-  return (
+export default function PageList<T extends WithId>({
+  result,
+  ItemComponent,
+}: Props<T>) {
+  return result.data.length ? (
     <>
       {result.data.map((item) => (
         <ItemComponent key={item.id} item={item} />
@@ -24,5 +27,9 @@ export default function PageList<T extends WithId>({ result, ItemComponent }: Pr
         <Pagination totalPages={result.totalPages} />
       </div>
     </>
+  ) : (
+    <div className="mt-5 flex w-full justify-center">
+      <p>Nothing here, yet.</p>
+    </div>
   );
 }
