@@ -1,22 +1,51 @@
 import clientPromise from '@/db/mongo/mongodb';
 import { Document, Filter, ObjectId, Sort, WithId } from 'mongodb';
 
-export async function getDb() {
+export async function getDb(dbName?: string | null) {
   const client = await clientPromise;
-  return client.db();
+  return dbName ? client.db(dbName) : client.db();
 }
 
 export type MongoEntity = WithId<Document>;
 
 export class MongoDataRepository {
+  constructor(private dbName?: string | null) {}
+
   async getById(
     collectionName: string,
     id: string,
   ): Promise<MongoEntity | null> {
-    const db = await getDb();
+    const db = await getDb(this.dbName);
     const collection = db.collection(collectionName);
     const filter = { _id: new ObjectId(id) };
     return await collection.findOne(filter);
+  }
+
+  async findOne(
+    collectionName: string,
+    filter: any,
+  ): Promise<MongoEntity | null> {
+    const db = await getDb(this.dbName);
+    const collection = db.collection(collectionName);
+    return await collection.findOne(filter);
+  }
+
+  async find(
+    collectionName: string,
+    filter: Filter<MongoEntity> | null = null,
+    sort: Sort | null = null,
+    offset: number = 0,
+    limit: number = 1_000,
+  ): Promise<MongoEntity[]> {
+    const db = await getDb(this.dbName);
+    const collection = db.collection(collectionName);
+    console.log('search', filter, offset, limit);
+    return await collection
+      .find(filter ?? {})
+      .skip(offset)
+      .limit(limit)
+      .sort(sort ?? { _id: 1 })
+      .toArray();
   }
 
   async search(
@@ -26,7 +55,7 @@ export class MongoDataRepository {
     filter?: Filter<MongoEntity> | null,
     sort?: Sort,
   ): Promise<MongoEntity[]> {
-    const db = await getDb();
+    const db = await getDb(this.dbName);
     const collection = db.collection(collectionName);
     console.log('search', filter, offset, limit);
     return await collection
@@ -41,7 +70,7 @@ export class MongoDataRepository {
     collectionName: string,
     filter?: Filter<MongoEntity> | null,
   ): Promise<number> {
-    const db = await getDb();
+    const db = await getDb(this.dbName);
     const collection = db.collection(collectionName);
     return await collection.countDocuments(filter ?? {});
   }
@@ -50,7 +79,7 @@ export class MongoDataRepository {
     collectionName: string,
     fieldName: string,
   ): Promise<T[]> {
-    const db = await getDb();
+    const db = await getDb(this.dbName);
     const collection = db.collection(collectionName);
     return await collection.distinct(fieldName);
   }
@@ -59,7 +88,7 @@ export class MongoDataRepository {
     collectionName: string,
     fieldName: string,
   ): Promise<MongoEntity[]> {
-    const db = await getDb();
+    const db = await getDb(this.dbName);
     const collection = db.collection(collectionName);
     const pipeline = [
       {
@@ -78,7 +107,7 @@ export class MongoDataRepository {
   }
 
   async create(collectionName: string, data: any): Promise<MongoEntity> {
-    const db = await getDb();
+    const db = await getDb(this.dbName);
     const collection = db.collection(collectionName);
     const result = await collection.insertOne(data);
     return { ...data, _id: result.insertedId };
@@ -90,7 +119,7 @@ export class MongoDataRepository {
     data: any,
     upsert?: boolean,
   ): Promise<MongoEntity | null> {
-    const db = await getDb();
+    const db = await getDb(this.dbName);
     const collection = db.collection(collectionName);
     const filter = { _id: new ObjectId(id) };
     const result = await collection.updateOne(
@@ -106,7 +135,7 @@ export class MongoDataRepository {
   }
 
   async deleteById(collectionName: string, id: string): Promise<void> {
-    const db = await getDb();
+    const db = await getDb(this.dbName);
     const collection = db.collection(collectionName);
     const filter = { _id: new ObjectId(id) };
     await collection.deleteOne(filter);
