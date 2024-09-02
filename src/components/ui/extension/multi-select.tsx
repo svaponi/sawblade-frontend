@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from '@/components/ui/badge';
 import {
   Command,
-  CommandItem,
   CommandEmpty,
+  CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import { cn } from "@/lib/utils";
-import { Command as CommandPrimitive } from "cmdk";
-import { X as RemoveIcon, Check } from "lucide-react";
+} from '@/components/ui/command';
+import { cn } from '@/lib/utils';
+import { Command as CommandPrimitive } from 'cmdk';
+import { Check, X as RemoveIcon } from 'lucide-react';
 import React, {
-  KeyboardEvent,
   createContext,
   forwardRef,
+  KeyboardEvent,
   useCallback,
   useContext,
   useState,
-} from "react";
+} from 'react';
 
 interface MultiSelectorProps
   extends React.ComponentPropsWithoutRef<typeof CommandPrimitive> {
@@ -44,7 +44,7 @@ const MultiSelectContext = createContext<MultiSelectContextProps | null>(null);
 const useMultiSelect = () => {
   const context = useContext(MultiSelectContext);
   if (!context) {
-    throw new Error("useMultiSelect must be used within MultiSelectProvider");
+    throw new Error('useMultiSelect must be used within MultiSelectProvider');
   }
   return context;
 };
@@ -64,12 +64,12 @@ const MultiSelector = ({
   dir,
   ...props
 }: MultiSelectorProps) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [open, setOpen] = useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [isValueSelected, setIsValueSelected] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState("");
+  const [selectedValue, setSelectedValue] = React.useState('');
 
   const onValueChangeHandler = useCallback(
     (val: string) => {
@@ -128,8 +128,8 @@ const MultiSelector = ({
       };
 
       switch (e.key) {
-        case "ArrowLeft":
-          if (dir === "rtl") {
+        case 'ArrowLeft':
+          if (dir === 'rtl') {
             if (value.length > 0 && (activeIndex !== -1 || loop)) {
               moveNext();
             }
@@ -140,8 +140,8 @@ const MultiSelector = ({
           }
           break;
 
-        case "ArrowRight":
-          if (dir === "rtl") {
+        case 'ArrowRight':
+          if (dir === 'rtl') {
             if (value.length > 0 && target.selectionStart === 0) {
               movePrev();
             }
@@ -152,8 +152,8 @@ const MultiSelector = ({
           }
           break;
 
-        case "Backspace":
-        case "Delete":
+        case 'Backspace':
+        case 'Delete':
           if (value.length > 0) {
             if (activeIndex !== -1 && activeIndex < value.length) {
               onValueChangeHandler(value[activeIndex]);
@@ -168,11 +168,11 @@ const MultiSelector = ({
           }
           break;
 
-        case "Enter":
+        case 'Enter':
           setOpen(true);
           break;
 
-        case "Escape":
+        case 'Escape':
           if (activeIndex !== -1) {
             setActiveIndex(-1);
           } else if (open) {
@@ -203,7 +203,7 @@ const MultiSelector = ({
       <Command
         onKeyDown={handleKeyDown}
         className={cn(
-          "overflow-visible bg-transparent flex flex-col space-y-2",
+          'flex flex-col space-y-2 overflow-visible bg-transparent',
           className,
         )}
         dir={dir}
@@ -230,9 +230,9 @@ const MultiSelectorTrigger = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "flex flex-wrap gap-1 p-1 py-2 ring-1 ring-muted rounded-lg bg-background",
+        'flex flex-wrap gap-1 rounded-md bg-background p-2 ring-1 ring-muted',
         {
-          "ring-1 focus-within:ring-ring": activeIndex === -1,
+          'ring-1 focus-within:ring-ring': activeIndex === -1,
         },
         className,
       )}
@@ -242,10 +242,10 @@ const MultiSelectorTrigger = forwardRef<
         <Badge
           key={item}
           className={cn(
-            "px-1 rounded-xl flex items-center gap-1",
-            activeIndex === index && "ring-2 ring-muted-foreground ",
+            'flex items-center gap-1 rounded-md px-1',
+            activeIndex === index && 'ring-2 ring-muted-foreground ',
           )}
-          variant={"secondary"}
+          variant={'secondary'}
         >
           <span className="text-xs">{item}</span>
           <button
@@ -265,7 +265,7 @@ const MultiSelectorTrigger = forwardRef<
   );
 });
 
-MultiSelectorTrigger.displayName = "MultiSelectorTrigger";
+MultiSelectorTrigger.displayName = 'MultiSelectorTrigger';
 
 const MultiSelectorInput = forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
@@ -293,15 +293,15 @@ const MultiSelectorInput = forwardRef<
       onFocus={() => setOpen(true)}
       onClick={() => setActiveIndex(-1)}
       className={cn(
-        "ml-2 bg-transparent outline-none placeholder:text-muted-foreground flex-1",
+        'ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground',
         className,
-        activeIndex !== -1 && "caret-transparent",
+        activeIndex !== -1 && 'caret-transparent',
       )}
     />
   );
 });
 
-MultiSelectorInput.displayName = "MultiSelectorInput";
+MultiSelectorInput.displayName = 'MultiSelectorInput';
 
 const MultiSelectorContent = forwardRef<
   HTMLDivElement,
@@ -315,7 +315,7 @@ const MultiSelectorContent = forwardRef<
   );
 });
 
-MultiSelectorContent.displayName = "MultiSelectorContent";
+MultiSelectorContent.displayName = 'MultiSelectorContent';
 
 const MultiSelectorList = forwardRef<
   React.ElementRef<typeof CommandPrimitive.List>,
@@ -325,7 +325,7 @@ const MultiSelectorList = forwardRef<
     <CommandList
       ref={ref}
       className={cn(
-        "p-2 flex flex-col gap-2 rounded-md scrollbar-thin scrollbar-track-transparent transition-colors scrollbar-thumb-muted-foreground dark:scrollbar-thumb-muted scrollbar-thumb-rounded-lg w-full absolute bg-background shadow-md z-10 border border-muted top-0",
+        'scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground dark:scrollbar-thumb-muted scrollbar-thumb-rounded-md absolute top-0 z-10 flex w-full flex-col gap-2 rounded-md border border-muted bg-background p-2 shadow-md transition-colors',
         className,
       )}
     >
@@ -337,7 +337,7 @@ const MultiSelectorList = forwardRef<
   );
 });
 
-MultiSelectorList.displayName = "MultiSelectorList";
+MultiSelectorList.displayName = 'MultiSelectorList';
 
 const MultiSelectorItem = forwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
@@ -359,13 +359,13 @@ const MultiSelectorItem = forwardRef<
       {...props}
       onSelect={() => {
         onValueChange(value);
-        setInputValue("");
+        setInputValue('');
       }}
       className={cn(
-        "rounded-md cursor-pointer px-2 py-1 transition-colors flex justify-between ",
+        'flex cursor-pointer justify-between rounded-md px-2 py-1 transition-colors ',
         className,
-        isIncluded && "opacity-50 cursor-default",
-        props.disabled && "opacity-50 cursor-not-allowed",
+        isIncluded && 'cursor-default opacity-50',
+        props.disabled && 'cursor-not-allowed opacity-50',
       )}
       onMouseDown={mousePreventDefault}
     >
@@ -375,7 +375,7 @@ const MultiSelectorItem = forwardRef<
   );
 });
 
-MultiSelectorItem.displayName = "MultiSelectorItem";
+MultiSelectorItem.displayName = 'MultiSelectorItem';
 
 export {
   MultiSelector,

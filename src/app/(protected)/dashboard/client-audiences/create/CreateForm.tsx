@@ -8,6 +8,7 @@ import { Api } from '@/domain/openauth/api';
 import { Client } from '@/domain/openauth/client';
 import { FormFieldSelect } from '@/components/form/FormFieldSelect';
 import React, { useState } from 'react';
+import { FormFieldSelectMulti } from '@/components/form/FormFieldSelectMulti';
 
 interface Props {
   clients: Client[];
@@ -31,25 +32,24 @@ export default function CreateForm({ clients, apis, backTo }: Props) {
         <FormFieldSelect
           name="client_id"
           label="Client ID"
-          values={clientIds}
+          options={clientIds}
           errors={state.errors?.client_id}
         />
         <FormFieldSelect
           name="audience"
           label="Audience"
-          values={audiences}
+          options={audiences}
           errors={state.errors?.audience}
           onValueChange={(value) =>
             setSelectedApi(apis.find((api) => api.audience === value))
           }
         />
-
-        {selectedApiPermissions.map((permission) => (
-          <p className="mt-2 text-sm" key={permission}>
-            {permission}
-          </p>
-        ))}
-
+        <FormFieldSelectMulti
+          name="permissions"
+          label="Permissions"
+          options={selectedApiPermissions}
+          errors={state.errors?.permissions}
+        />
         <div className="flex gap-4">
           <Button type="submit">Save</Button>
           {backTo ? (

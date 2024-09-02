@@ -9,6 +9,7 @@ import { FormFieldSelect } from '@/components/form/FormFieldSelect';
 import { ClientAudience } from '@/domain/openauth/clientAudience';
 import { Api } from '@/domain/openauth/api';
 import { Client } from '@/domain/openauth/client';
+import { FormFieldSelectMulti } from '@/components/form/FormFieldSelectMulti';
 
 interface Props {
   client_audience: ClientAudience;
@@ -42,32 +43,26 @@ export default function EditForm({
           name="client_id"
           label="Client ID"
           value={client_audience.client_id}
-          values={clientIds}
+          options={clientIds}
           errors={state.errors?.client_id}
         />
         <FormFieldSelect
           name="audience"
           label="Audience"
           value={client_audience.audience}
-          values={audiences}
+          options={audiences}
           errors={state.errors?.audience}
           onValueChange={(value) =>
             setSelectedApi(apis.find((api) => api.audience === value))
           }
         />
-
-        {selectedApiPermissions.map((permission) =>
-          client_audience.permissions.includes(permission) ? (
-            <p className="mt-2 text-sm" key={permission}>
-              {permission}
-            </p>
-          ) : (
-            <p className="mt-2 text-sm text-muted-foreground" key={permission}>
-              {permission}
-            </p>
-          ),
-        )}
-
+        <FormFieldSelectMulti
+          name="permissions"
+          label="Permissions"
+          values={client_audience.permissions}
+          options={selectedApiPermissions}
+          errors={state.errors?.permissions}
+        />
         <div className="flex gap-4">
           <Button type="submit">Save</Button>
           {backTo ? (
