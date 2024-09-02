@@ -1,6 +1,8 @@
 import NotFound from '@/components/form/NotFound';
-import { RESOURCE_NAME } from '../constants';
+import { config } from '../constants';
 
 export default function NotFoundPage() {
-  return <NotFound text={`Could not find the requested ${RESOURCE_NAME}.`} />;
+  return (
+    <NotFound text={`Could not find the requested ${config.RESOURCE_NAME}.`} />
+  );
 }
