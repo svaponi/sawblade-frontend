@@ -4,11 +4,11 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import React from 'react';
 import EditForm from './EditForm';
 import JSONStringify from '@/components/form/JSONStringify';
-import { EDIT_PAGE_TITLE, LIST_PAGE_PATH, LIST_PAGE_TITLE } from '../constants';
+import { config } from '../constants';
 import { getById } from '../actions';
 
 export const metadata: Metadata = {
-  title: EDIT_PAGE_TITLE,
+  title: config.EDIT_PAGE_TITLE,
 };
 
 interface Props {
@@ -28,19 +28,19 @@ export default async function Page({ params, searchParams }: Props) {
   }
 
   const backTo = fromPage
-    ? `${LIST_PAGE_PATH}?page=${fromPage}`
-    : LIST_PAGE_PATH;
+    ? `${config.LIST_PAGE_PATH}?page=${fromPage}`
+    : config.LIST_PAGE_PATH;
 
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
           {
-            label: LIST_PAGE_TITLE,
+            label: config.LIST_PAGE_TITLE,
             href: backTo,
           },
           {
-            label: EDIT_PAGE_TITLE,
+            label: config.EDIT_PAGE_TITLE,
             active: true,
           },
         ]}

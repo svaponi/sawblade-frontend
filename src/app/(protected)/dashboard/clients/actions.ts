@@ -3,21 +3,7 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { Client, clients } from '@/domain/openauth/client';
-import { LIST_PAGE_PATH, PAGE_SIZE } from './constants';
-
-const FormSchema = z.object({
-  client_id: z
-    .string({
-      invalid_type_error: 'Please provide a client_id.',
-    })
-    .min(1, 'Audience cannot be empty'),
-  client_secret: z
-    .string({
-      invalid_type_error: 'Please provide a client_secret.',
-    })
-    .min(1, 'Audience cannot be empty'),
-});
+import { config, formDataToObject, FormSchema, Model } from './constants';
 
 const CreateFormSchema = FormSchema.omit({});
 const UpdateFormSchema = FormSchema.omit({});
@@ -38,13 +24,6 @@ export type UpdateFormState = {
   };
   message?: string | null;
 };
-
-function formDataToObject(formData: FormData) {
-  return {
-    client_id: formData.get('client_id') as string,
-    client_secret: formData.get('client_secret') as string,
-  };
-}
 
 export async function create(
   prevState: CreateFormState,
@@ -68,7 +47,7 @@ export async function create(
 
   // Insert data into the database
   try {
-    await clients.create(data);
+    await config.repository.create(data);
   } catch (error) {
     // If a database error occurs, return a more specific error.
     return {
@@ -77,8 +56,8 @@ export async function create(
   }
 
   // Revalidate the cache for the invoices page and redirect the user.
-  revalidatePath(LIST_PAGE_PATH);
-  redirect(LIST_PAGE_PATH);
+  revalidatePath(config.LIST_PAGE_PATH);
+  redirect(config.LIST_PAGE_PATH);
 }
 
 export async function update(
@@ -100,40 +79,37 @@ export async function update(
   const data = { ...validatedFields.data };
 
   try {
-    await clients.updateById(id, data);
+    await config.repository.updateById(id, data);
   } catch (error) {
     return { message: 'Server Error.' };
   }
 
-  revalidatePath(LIST_PAGE_PATH);
-  redirect(LIST_PAGE_PATH);
+  revalidatePath(config.LIST_PAGE_PATH);
+  redirect(config.LIST_PAGE_PATH);
 }
 
-export async function getPage(
-  query?: string,
-  page?: number,
-): Promise<Client[]> {
-  const offset = ((page ?? 1) - 1) * PAGE_SIZE;
-  return await clients.search(offset, PAGE_SIZE, { query });
+export async function getPage(query?: string, page?: number): Promise<Model[]> {
+  const offset = ((page ?? 1) - 1) * config.PAGE_SIZE;
+  return await config.repository.search(offset, config.PAGE_SIZE, { query });
 }
 
 export async function getPageCount(query?: string): Promise<number> {
-  const result = await clients.count({ query });
-  return Math.ceil(result / PAGE_SIZE);
+  const result = await config.repository.count({ query });
+  return Math.ceil(result / config.PAGE_SIZE);
 }
 
 export async function getPageAndPageCount(
   query?: string,
   page?: number,
-): Promise<[Client[], number]> {
+): Promise<[Model[], number]> {
   return await Promise.all([getPage(query, page), getPageCount(query)]);
 }
 
 export async function deleteById(id: string) {
   try {
-    await clients.deleteById(id);
-    revalidatePath(`${LIST_PAGE_PATH}/${id}`);
-    revalidatePath(LIST_PAGE_PATH);
+    await config.repository.deleteById(id);
+    revalidatePath(`${config.LIST_PAGE_PATH}/${id}`);
+    revalidatePath(config.LIST_PAGE_PATH);
     return { message: 'Deleted' };
   } catch (error) {
     return { message: 'Database Error: Failed to delete.' };
@@ -141,5 +117,5 @@ export async function deleteById(id: string) {
 }
 
 export async function getById(id: string) {
-  return await clients.getById(id);
+  return await config.repository.getById(id);
 }

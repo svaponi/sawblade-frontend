@@ -7,9 +7,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { LIST_PAGE_PATH, RESOURCE_NAME_PLURAL } from './constants';
-import { deleteById, getPageAndPageCount } from './actions';
 import { ClientAudience } from '@/domain/openauth/clientAudience';
+import { deleteById, getPageAndPageCount } from './actions';
+import { config } from './constants';
 
 interface Props {
   searchParams?: {
@@ -24,10 +24,10 @@ export default async function Page(props: Props) {
       <div className="flex items-center justify-between gap-10">
         <div className="">
           <div className="text-2xl font-semibold">
-            <h3>{RESOURCE_NAME_PLURAL}</h3>
+            <h3>{config.RESOURCE_NAME_PLURAL}</h3>
           </div>
           <div className="text-sm text-muted-foreground">
-            <h3>All {RESOURCE_NAME_PLURAL} in the system.</h3>
+            <h3>All {config.RESOURCE_NAME_PLURAL} in the system.</h3>
           </div>
         </div>
         <Search placeholder="Search..." />
@@ -51,9 +51,9 @@ async function SuspendedList({ searchParams }: Props) {
     return (
       <Card key={item.id}>
         <CardContent className="flex flex-col justify-between gap-4 py-4 md:flex-row md:items-center">
-          <Link href={`${LIST_PAGE_PATH}/${item.id}?fromPage=${page}`}>
+          <Link href={`${config.LIST_PAGE_PATH}/${item.id}?fromPage=${page}`}>
             <p className="">
-              {item.client_id} <pre>{item.audience}</pre>
+              {item.client_id} {'<>'} {item.audience}
             </p>
             <p className="text-xs text-muted-foreground">{item.id}</p>
           </Link>
@@ -72,7 +72,7 @@ async function SuspendedList({ searchParams }: Props) {
 
 function CreateButton() {
   return (
-    <Link href={`${LIST_PAGE_PATH}/create`}>
+    <Link href={`${config.LIST_PAGE_PATH}/create`}>
       <Button>
         <PlusIcon className="h-5" />
         <span className="ml-2">Create</span>

@@ -7,6 +7,7 @@ import { create } from '../actions';
 import { Api } from '@/domain/openauth/api';
 import { Client } from '@/domain/openauth/client';
 import { FormFieldSelect } from '@/components/form/FormFieldSelect';
+import React, { useState } from 'react';
 
 interface Props {
   clients: Client[];
@@ -20,6 +21,9 @@ export default function CreateForm({ clients, apis, backTo }: Props) {
 
   const clientIds = clients.map((item) => item.client_id);
   const audiences = apis.map((item) => item.audience);
+
+  const [selectedApi, setSelectedApi] = useState<Api>();
+  const selectedApiPermissions = selectedApi?.permissions || [];
 
   return (
     <form action={dispatch}>
@@ -35,7 +39,16 @@ export default function CreateForm({ clients, apis, backTo }: Props) {
           label="Audience"
           values={audiences}
           errors={state.errors?.audience}
+          onValueChange={(value) =>
+            setSelectedApi(apis.find((api) => api.audience === value))
+          }
         />
+
+        {selectedApiPermissions.map((permission) => (
+          <p className="mt-2 text-sm" key={permission}>
+            {permission}
+          </p>
+        ))}
 
         <div className="flex gap-4">
           <Button type="submit">Save</Button>

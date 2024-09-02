@@ -14,25 +14,36 @@ interface Props {
   value?: string;
   values?: string[];
   errors?: string[];
+  onValueChange?(value: string): void;
 }
 
-export function FormFieldSelect({ name, label, value, values, errors }: Props) {
+export function FormFieldSelect({
+  name,
+  label,
+  value,
+  values,
+  errors,
+  onValueChange,
+}: Props) {
   return (
     <div className="">
       <label htmlFor={name} className="my-4 block text-sm font-medium">
         {label ?? name}
       </label>
       <div className="my-4 space-y-4">
-        <Select>
+        <Select name={name} value={value} onValueChange={onValueChange}>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder={label ?? name} defaultValue={value} />
+            <SelectValue placeholder={label ?? name} />
           </SelectTrigger>
-          <SelectContent>
-            {values &&
-              values.map((value: string) => (
-                <SelectItem value={value}>{value}</SelectItem>
+          {values && (
+            <SelectContent position="popper">
+              {values.map((value: string) => (
+                <SelectItem key={value} value={value}>
+                  {value}
+                </SelectItem>
               ))}
-          </SelectContent>
+            </SelectContent>
+          )}
         </Select>
       </div>
       <div id={name + '-error'} aria-live="polite" aria-atomic="true">
